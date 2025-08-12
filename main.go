@@ -3,6 +3,7 @@
 // a copy of which can be found in the LICENSE.txt file.
 // SPDX-License-Identifier: MIT
 
+// Package main provides the entry point for krf.
 package main
 
 import (
