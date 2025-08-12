@@ -1,0 +1,35 @@
+name: build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - uses: goreleaser/goreleaser-action@v6
+        with:
+          # https://github.com/goreleaser/goreleaser/releases/tag/v2.11.2
+          version: v2.11.2
+          args: build --clean --snapshot
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artifacts
+          path: dist/
+
+      - shell: sh
+        run: ./dist/krf_linux_amd64_v1/krf --help
