@@ -1,0 +1,41 @@
+version: "2"
+
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - gofumpt
+    - goimports
+
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/joshdk/krf)
+
+linters:
+  default: all
+
+  disable:
+    # Linters that are not used for this project.
+    - depguard
+    - exhaustruct
+    - noinlineerr
+
+    # Linters that are deprecated.
+    - wsl
+
+  settings:
+    errcheck:
+      exclude-functions:
+        - fmt.Fprint
+        - fmt.Fprintf
+        - fmt.Fprintln
+
+    goheader:
+      template: |-
+        Copyright Josh Komoroske. All rights reserved.
+        Use of this source code is governed by the MIT license,
+        a copy of which can be found in the LICENSE.txt file.
+        SPDX-License-Identifier: MIT
