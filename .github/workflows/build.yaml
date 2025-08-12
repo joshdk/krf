@@ -32,4 +32,4 @@ jobs:
           path: dist/
 
       - shell: sh
-        run: ./dist/krf_linux_amd64_v1/krf --help
+        run: ./dist/krf_linux_amd64_v1/krf --version

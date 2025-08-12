@@ -14,6 +14,9 @@ builds:
       - -trimpath
 
     ldflags:
+      - -X github.com/joshdk/krf/cmd.revision={{ .FullCommit }}
+      - -X github.com/joshdk/krf/cmd.timestamp={{ .Date }}
+      - -X github.com/joshdk/krf/cmd.version={{ .Summary }}
       - -buildid=
       - -s
       - -w
