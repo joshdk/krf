@@ -4,7 +4,10 @@ go 1.24.0
 
 toolchain go1.24.2
 
-require github.com/spf13/cobra v1.9.1
+require (
+	github.com/joshdk/buildversion v0.1.0
+	github.com/spf13/cobra v1.9.1
+)
 
 require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect

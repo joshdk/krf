@@ -21,6 +21,7 @@ linters:
     # Linters that are not used for this project.
     - depguard
     - exhaustruct
+    - gochecknoglobals
     - noinlineerr
 
     # Linters that are deprecated.
