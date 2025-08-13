@@ -12,25 +12,22 @@ import (
 	"github.com/joshdk/buildversion"
 	"github.com/spf13/cobra"
 
+	"github.com/joshdk/krf/cmd/mflag"
+	"github.com/joshdk/krf/matcher"
 	"github.com/joshdk/krf/resources"
 )
 
 // Command returns a complete command line handler for krf.
 func Command() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:  "krf [directory|file|-]",
-		Long: "krf - kubernetes resources filter",
+		Use:     "krf [directory|file|-]",
+		Long:    "krf - kubernetes resource filter",
+		Version: "-",
 
 		SilenceUsage:  true,
 		SilenceErrors: true,
 
 		Args: cobra.MaximumNArgs(1),
-
-		RunE: func(_ *cobra.Command, args []string) error {
-			return cmdFunc(args)
-		},
-
-		Version: "-",
 	}
 
 	// Add a custom usage footer template.
@@ -39,19 +36,56 @@ func Command() *cobra.Command {
 	// Set a custom version template.
 	cmd.SetVersionTemplate(buildversion.Template(versionTemplate))
 
+	mf := mflag.NewMatcherFlags(cmd.Flags())
+
+	// Define --name flag.
+	mf.StringSliceMatcher(matcher.NewNameMatcher,
+		"name",
+		nil,
+		"list of names to include")
+
+	// Define --not-name flag.
+	mf.StringSliceMatcher(matcher.NewNameMatcher,
+		"not-name",
+		nil,
+		"list of names to exclude")
+
+	// Define --namespace flag.
+	mf.StringSliceMatcher(matcher.NewNamespaceMatcher,
+		"namespace",
+		nil,
+		"list of names to include")
+
+	// Define --not-name flag.
+	mf.StringSliceMatcher(matcher.NewNamespaceMatcher,
+		"not-namespace",
+		nil,
+		"list of names to exclude")
+
+	cmd.RunE = func(_ *cobra.Command, args []string) error {
+		return cmdFunc(mf, args)
+	}
+
 	return cmd
 }
 
-func cmdFunc(args []string) error {
-	var results []resources.Resource
+func cmdFunc(mf *mflag.FlagSet, args []string) error {
+	allMatchers, err := mf.Matcher()
+	if err != nil {
+		return err
+	}
 
 	var source string
 	if len(args) > 0 {
 		source = args[0]
 	}
 
-	err := resources.Decode(source, func(item resources.Resource) {
-		results = append(results, item)
+	var results []resources.Resource
+
+	err = resources.Decode(source, func(item resources.Resource) {
+		if allMatchers.Matches(item) {
+			results = append(results, item)
+		}
 	})
 	if err != nil {
 		return err
