@@ -33,3 +33,17 @@ jobs:
 
       - shell: sh
         run: ./dist/krf_linux_amd64_v1/krf --version
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - shell: sh
+        run: go test -v ./...
