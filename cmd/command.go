@@ -7,8 +7,12 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/joshdk/buildversion"
 	"github.com/spf13/cobra"
+
+	"github.com/joshdk/krf/resources"
 )
 
 // Command returns a complete command line handler for krf.
@@ -22,8 +26,8 @@ func Command() *cobra.Command {
 
 		Args: cobra.MaximumNArgs(1),
 
-		RunE: func(*cobra.Command, []string) error {
-			return nil
+		RunE: func(_ *cobra.Command, args []string) error {
+			return cmdFunc(args)
 		},
 
 		Version: "-",
@@ -36,4 +40,26 @@ func Command() *cobra.Command {
 	cmd.SetVersionTemplate(buildversion.Template(versionTemplate))
 
 	return cmd
+}
+
+func cmdFunc(args []string) error {
+	var results []resources.Resource
+
+	var source string
+	if len(args) > 0 {
+		source = args[0]
+	}
+
+	err := resources.Decode(source, func(item resources.Resource) {
+		results = append(results, item)
+	})
+	if err != nil {
+		return err
+	}
+
+	for _, result := range results {
+		fmt.Printf("%s/%s\n", result.GetKind(), result.GetName())
+	}
+
+	return nil
 }

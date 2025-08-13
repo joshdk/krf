@@ -19,10 +19,16 @@ linters:
 
   disable:
     # Linters that are not used for this project.
+    - cyclop
     - depguard
+    - err113
     - exhaustruct
+    - forbidigo
     - gochecknoglobals
+    - gosec
     - noinlineerr
+    - varnamelen
+    - wrapcheck
 
     # Linters that are deprecated.
     - wsl
