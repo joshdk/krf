@@ -39,28 +39,28 @@ func Command() *cobra.Command {
 	mf := mflag.NewMatcherFlags(cmd.Flags())
 
 	// Define --name flag.
-	mf.StringSliceMatcher(matcher.NewNameMatcher,
+	mf.StringSliceErrorMatcher(matcher.NewNameMatcher,
 		"name",
 		nil,
-		"list of names to include")
+		"include resources by name")
 
 	// Define --not-name flag.
-	mf.StringSliceMatcher(matcher.NewNameMatcher,
+	mf.StringSliceErrorMatcher(matcher.NewNameMatcher,
 		"not-name",
 		nil,
-		"list of names to exclude")
+		"exclude resources by name")
 
 	// Define --namespace flag.
-	mf.StringSliceMatcher(matcher.NewNamespaceMatcher,
+	mf.StringSliceErrorMatcher(matcher.NewNamespaceMatcher,
 		"namespace",
 		nil,
-		"list of names to include")
+		"include resources by namespace")
 
-	// Define --not-name flag.
-	mf.StringSliceMatcher(matcher.NewNamespaceMatcher,
+	// Define --not-namespace flag.
+	mf.StringSliceErrorMatcher(matcher.NewNamespaceMatcher,
 		"not-namespace",
 		nil,
-		"list of names to exclude")
+		"exclude resources by namespace")
 
 	cmd.RunE = func(_ *cobra.Command, args []string) error {
 		return cmdFunc(mf, args)
