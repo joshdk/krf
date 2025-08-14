@@ -6,18 +6,25 @@
 package matcher
 
 import (
+	"github.com/gobwas/glob"
+
 	"github.com/joshdk/krf/resources"
 )
 
 // NewNameMatcher matches resources.Resource instances based on the given name.
-func NewNameMatcher(name string) Matcher {
-	return nameMatcher{name: name}
+func NewNameMatcher(name string) (Matcher, error) {
+	nameGlob, err := asGlob(name)
+	if err != nil {
+		return nil, err
+	}
+
+	return nameMatcher{nameGlob: nameGlob}, nil
 }
 
 type nameMatcher struct {
-	name string
+	nameGlob glob.Glob
 }
 
 func (m nameMatcher) Matches(item resources.Resource) bool {
-	return m.name == item.GetName()
+	return m.nameGlob.Match(item.GetName())
 }

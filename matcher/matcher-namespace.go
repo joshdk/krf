@@ -6,19 +6,26 @@
 package matcher
 
 import (
+	"github.com/gobwas/glob"
+
 	"github.com/joshdk/krf/resources"
 )
 
 // NewNamespaceMatcher matches resources.Resource instances based on the given
 // namespace.
-func NewNamespaceMatcher(namespace string) Matcher {
-	return namespaceMatcher{namespace: namespace}
+func NewNamespaceMatcher(namespace string) (Matcher, error) {
+	namespaceGlob, err := asGlob(namespace)
+	if err != nil {
+		return nil, err
+	}
+
+	return namespaceMatcher{namespaceGlob: namespaceGlob}, nil
 }
 
 type namespaceMatcher struct {
-	namespace string
+	namespaceGlob glob.Glob
 }
 
 func (m namespaceMatcher) Matches(item resources.Resource) bool {
-	return m.namespace == item.GetNamespace()
+	return m.namespaceGlob.Match(item.GetNamespace())
 }
