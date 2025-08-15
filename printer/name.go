@@ -3,9 +3,6 @@
 // a copy of which can be found in the LICENSE.txt file.
 // SPDX-License-Identifier: MIT
 
-// Package printer provides functions for rendering resources.Resource
-// collections into various formats for outputting to the terminal or command
-// pipeline.
 package printer
 
 import (
