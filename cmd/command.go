@@ -68,7 +68,7 @@ func Command() *cobra.Command {
 		"output",
 		"o",
 		"",
-		"output format")
+		"output format (name,yaml)")
 
 	cmd.RunE = func(_ *cobra.Command, args []string) error {
 		return cmdFunc(mf, *output, args)
@@ -79,6 +79,11 @@ func Command() *cobra.Command {
 
 func cmdFunc(mf *mflag.FlagSet, output string, args []string) error {
 	allMatchers, err := mf.Matcher()
+	if err != nil {
+		return err
+	}
+
+	printerFn, err := printer.ByName(output)
 	if err != nil {
 		return err
 	}
@@ -99,17 +104,5 @@ func cmdFunc(mf *mflag.FlagSet, output string, args []string) error {
 		return err
 	}
 
-	switch output {
-	case "yaml":
-		if err := printer.YAML(os.Stdout, results); err != nil {
-			return err
-		}
-
-	default:
-		if err := printer.Name(os.Stdout, results); err != nil {
-			return err
-		}
-	}
-
-	return nil
+	return printerFn(os.Stdout, results)
 }
