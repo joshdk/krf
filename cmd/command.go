@@ -7,13 +7,14 @@
 package cmd
 
 import (
-	"fmt"
+	"os"
 
 	"github.com/joshdk/buildversion"
 	"github.com/spf13/cobra"
 
 	"github.com/joshdk/krf/cmd/mflag"
 	"github.com/joshdk/krf/matcher"
+	"github.com/joshdk/krf/printer"
 	"github.com/joshdk/krf/resources"
 )
 
@@ -62,14 +63,21 @@ func Command() *cobra.Command {
 		nil,
 		"exclude resources by namespace")
 
+	// Define --format flag.
+	output := cmd.Flags().StringP(
+		"output",
+		"o",
+		"",
+		"output format")
+
 	cmd.RunE = func(_ *cobra.Command, args []string) error {
-		return cmdFunc(mf, args)
+		return cmdFunc(mf, *output, args)
 	}
 
 	return cmd
 }
 
-func cmdFunc(mf *mflag.FlagSet, args []string) error {
+func cmdFunc(mf *mflag.FlagSet, output string, args []string) error {
 	allMatchers, err := mf.Matcher()
 	if err != nil {
 		return err
@@ -91,8 +99,16 @@ func cmdFunc(mf *mflag.FlagSet, args []string) error {
 		return err
 	}
 
-	for _, result := range results {
-		fmt.Printf("%s/%s\n", result.GetKind(), result.GetName())
+	switch output {
+	case "yaml":
+		if err := printer.YAML(os.Stdout, results); err != nil {
+			return err
+		}
+
+	default:
+		if err := printer.Name(os.Stdout, results); err != nil {
+			return err
+		}
 	}
 
 	return nil
