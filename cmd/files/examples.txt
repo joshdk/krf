@@ -1,0 +1,20 @@
+  Resources can be consumed from several different formats.
+
+  A single file:
+  $ krf resources.yaml
+
+  All yaml files inside a directory:
+  $ krf ./manifests/
+
+  The output of kustomize build:
+  $ kustomize build … | krf
+
+  The output of kubectl in yaml format:
+  $ kubectl get all -o=yaml | krf
+
+  The output of kubectl in json format:
+  $ kubectl get all -o=json | krf
+
+  Resources can then be filtered based on several different properties.
+
+  … | krf --name my-pod-

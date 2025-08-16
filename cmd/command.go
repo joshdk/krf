@@ -8,6 +8,7 @@ package cmd
 
 import (
 	"os"
+	"strings"
 
 	"github.com/joshdk/buildversion"
 	"github.com/spf13/cobra"
@@ -30,6 +31,9 @@ func Command() *cobra.Command {
 
 		Args: cobra.MaximumNArgs(1),
 	}
+
+	// Set a custom list of examples.
+	cmd.Example = strings.TrimRight(exampleText, "\n")
 
 	// Add a custom usage footer template.
 	cmd.SetUsageTemplate(cmd.UsageTemplate() + "\n" + buildversion.Template(usageTemplate))
