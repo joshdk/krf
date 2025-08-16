@@ -23,4 +23,7 @@ var (
 
 	//go:embed files/version-template.tmpl
 	versionTemplate string
+
+	//go:embed files/examples.txt
+	exampleText string
 )
