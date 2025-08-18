@@ -7,6 +7,7 @@ toolchain go1.24.2
 require (
 	github.com/gobwas/glob v0.2.3
 	github.com/joshdk/buildversion v0.1.0
+	github.com/rodaine/table v1.3.0
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/pflag v1.0.7
 	golang.org/x/term v0.34.0

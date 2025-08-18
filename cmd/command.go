@@ -72,7 +72,7 @@ func Command() *cobra.Command {
 		"output",
 		"o",
 		"",
-		"output format (name,yaml)")
+		"output format (name,table,yaml)")
 
 	cmd.RunE = func(_ *cobra.Command, args []string) error {
 		return cmdFunc(mf, *output, args)

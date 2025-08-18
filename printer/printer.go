@@ -22,7 +22,7 @@ import (
 // and the program output is being redirected or piped to a consumer process,
 // hen default to the YAML printer. Additionally, if no name is given and the
 // program output is being sent directly to the terminal, then instead default
-// to the Name printer.
+// to the Table printer.
 func ByName(name string) (func(io.Writer, []resources.Resource) error, error) {
 	switch name {
 	case "":
@@ -32,10 +32,13 @@ func ByName(name string) (func(io.Writer, []resources.Resource) error, error) {
 		}
 
 		// Default for when output is directly to a terminal.
-		return Name, nil
+		return Table, nil
 
 	case "name":
 		return Name, nil
+
+	case "table":
+		return Table, nil
 
 	case "yaml":
 		return YAML, nil
