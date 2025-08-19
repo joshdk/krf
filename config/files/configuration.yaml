@@ -1,0 +1,389 @@
+apiVersion: krf.joshdk.github.com/v1beta1
+kind: Configuration
+
+resources:
+  - apiVersion: v1
+    kind: Binding
+    aliases:
+      - binding
+      - bindings
+  - apiVersion: v1
+    kind: ComponentStatus
+    aliases:
+      - componentstatus
+      - componentstatuses
+      - cs
+  - apiVersion: v1
+    kind: ConfigMap
+    aliases:
+      - cm
+      - configmap
+      - configmaps
+  - apiVersion: v1
+    kind: Endpoints
+    aliases:
+      - endpoints
+      - ep
+  - apiVersion: v1
+    kind: Event
+    aliases:
+      - ev
+      - event
+      - events
+  - apiVersion: v1
+    kind: LimitRange
+    aliases:
+      - limitrange
+      - limitranges
+      - limits
+  - apiVersion: v1
+    kind: Namespace
+    aliases:
+      - namespace
+      - namespaces
+      - ns
+  - apiVersion: v1
+    kind: Node
+    aliases:
+      - 'no'
+      - node
+      - nodes
+  - apiVersion: v1
+    kind: PersistentVolume
+    aliases:
+      - persistentvolume
+      - persistentvolumes
+      - pv
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    aliases:
+      - persistentvolumeclaim
+      - persistentvolumeclaims
+      - pvc
+  - apiVersion: v1
+    kind: Pod
+    aliases:
+      - po
+      - pod
+      - pods
+  - apiVersion: v1
+    kind: PodTemplate
+    aliases:
+      - podtemplate
+      - podtemplates
+  - apiVersion: v1
+    kind: ReplicationController
+    aliases:
+      - rc
+      - replicationcontroller
+      - replicationcontrollers
+  - apiVersion: v1
+    kind: ResourceQuota
+    aliases:
+      - quota
+      - resourcequota
+      - resourcequotas
+  - apiVersion: v1
+    kind: Secret
+    aliases:
+      - secret
+      - secrets
+  - apiVersion: v1
+    kind: Service
+    aliases:
+      - service
+      - services
+      - svc
+  - apiVersion: v1
+    kind: ServiceAccount
+    aliases:
+      - sa
+      - serviceaccount
+      - serviceaccounts
+  - apiVersion: apps/v1
+    kind: ControllerRevision
+    aliases:
+      - controllerrevision
+      - controllerrevisions
+  - apiVersion: apps/v1
+    kind: DaemonSet
+    aliases:
+      - daemonset
+      - daemonsets
+      - ds
+  - apiVersion: apps/v1
+    kind: Deployment
+    aliases:
+      - deploy
+      - deployment
+      - deployments
+  - apiVersion: apps/v1
+    kind: ReplicaSet
+    aliases:
+      - replicaset
+      - replicasets
+      - rs
+  - apiVersion: apps/v1
+    kind: StatefulSet
+    aliases:
+      - statefulset
+      - statefulsets
+      - sts
+  - apiVersion: autoscaling/v2
+    kind: HorizontalPodAutoscaler
+    aliases:
+      - horizontalpodautoscaler
+      - horizontalpodautoscalers
+      - hpa
+  - apiVersion: batch/v1
+    kind: CronJob
+    aliases:
+      - cj
+      - cronjob
+      - cronjobs
+  - apiVersion: batch/v1
+    kind: Job
+    aliases:
+      - job
+      - jobs
+  - apiVersion: policy/v1
+    kind: PodDisruptionBudget
+    aliases:
+      - pdb
+      - poddisruptionbudget
+      - poddisruptionbudgets
+  - apiVersion: admissionregistration.k8s.io/v1
+    kind: MutatingWebhookConfiguration
+    aliases:
+      - mutatingwebhookconfiguration
+      - mutatingwebhookconfigurations
+  - apiVersion: admissionregistration.k8s.io/v1
+    kind: ValidatingAdmissionPolicy
+    aliases:
+      - validatingadmissionpolicies
+      - validatingadmissionpolicy
+  - apiVersion: admissionregistration.k8s.io/v1
+    kind: ValidatingAdmissionPolicyBinding
+    aliases:
+      - validatingadmissionpolicybinding
+      - validatingadmissionpolicybindings
+  - apiVersion: admissionregistration.k8s.io/v1
+    kind: ValidatingWebhookConfiguration
+    aliases:
+      - validatingwebhookconfiguration
+      - validatingwebhookconfigurations
+  - apiVersion: apiextensions.k8s.io/v1
+    kind: CustomResourceDefinition
+    aliases:
+      - crd
+      - crds
+      - customresourcedefinition
+      - customresourcedefinitions
+  - apiVersion: apiregistration.k8s.io/v1
+    kind: APIService
+    aliases:
+      - apiservice
+      - apiservices
+  - apiVersion: flowcontrol.apiserver.k8s.io/v1
+    kind: FlowSchema
+    aliases:
+      - flowschema
+      - flowschemas
+  - apiVersion: flowcontrol.apiserver.k8s.io/v1
+    kind: PriorityLevelConfiguration
+    aliases:
+      - prioritylevelconfiguration
+      - prioritylevelconfigurations
+  - apiVersion: authentication.k8s.io/v1
+    kind: SelfSubjectReview
+    aliases:
+      - selfsubjectreview
+      - selfsubjectreviews
+  - apiVersion: authentication.k8s.io/v1
+    kind: TokenReview
+    aliases:
+      - tokenreview
+      - tokenreviews
+  - apiVersion: authorization.k8s.io/v1
+    kind: LocalSubjectAccessReview
+    aliases:
+      - localsubjectaccessreview
+      - localsubjectaccessreviews
+  - apiVersion: authorization.k8s.io/v1
+    kind: SelfSubjectAccessReview
+    aliases:
+      - selfsubjectaccessreview
+      - selfsubjectaccessreviews
+  - apiVersion: authorization.k8s.io/v1
+    kind: SelfSubjectRulesReview
+    aliases:
+      - selfsubjectrulesreview
+      - selfsubjectrulesreviews
+  - apiVersion: authorization.k8s.io/v1
+    kind: SubjectAccessReview
+    aliases:
+      - subjectaccessreview
+      - subjectaccessreviews
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    aliases:
+      - clusterrole
+      - clusterroles
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    aliases:
+      - clusterrolebinding
+      - clusterrolebindings
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    aliases:
+      - role
+      - roles
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    aliases:
+      - rolebinding
+      - rolebindings
+  - apiVersion: autoscaling.k8s.io/v1
+    kind: VerticalPodAutoscaler
+    aliases:
+      - verticalpodautoscaler
+      - verticalpodautoscalers
+      - vpa
+  - apiVersion: autoscaling.k8s.io/v1
+    kind: VerticalPodAutoscalerCheckpoint
+    aliases:
+      - verticalpodautoscalercheckpoint
+      - verticalpodautoscalercheckpoints
+      - vpacheckpoint
+  - apiVersion: certificates.k8s.io/v1
+    kind: CertificateSigningRequest
+    aliases:
+      - certificatesigningrequest
+      - certificatesigningrequests
+      - csr
+  - apiVersion: coordination.k8s.io/v1
+    kind: Lease
+    aliases:
+      - lease
+      - leases
+  - apiVersion: discovery.k8s.io/v1
+    kind: EndpointSlice
+    aliases:
+      - endpointslice
+      - endpointslices
+  - apiVersion: events.k8s.io/v1
+    kind: Event
+    aliases:
+      - ev
+      - event
+      - events
+  - apiVersion: metrics.k8s.io/v1beta1
+    kind: NodeMetrics
+    aliases:
+      - nodemetrics
+      - nodes
+  - apiVersion: metrics.k8s.io/v1beta1
+    kind: PodMetrics
+    aliases:
+      - podmetrics
+      - pods
+  - apiVersion: external.metrics.k8s.io/v1beta1
+    kind: ExternalMetricValueList
+    aliases:
+      - externalmetrics
+      - externalmetricvaluelist
+  - apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    aliases:
+      - ing
+      - ingress
+      - ingresses
+  - apiVersion: networking.k8s.io/v1
+    kind: IngressClass
+    aliases:
+      - ingressclass
+      - ingressclasses
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    aliases:
+      - netpol
+      - networkpolicies
+      - networkpolicy
+  - apiVersion: node.k8s.io/v1
+    kind: RuntimeClass
+    aliases:
+      - runtimeclass
+      - runtimeclasses
+  - apiVersion: scheduling.k8s.io/v1
+    kind: PriorityClass
+    aliases:
+      - pc
+      - priorityclass
+      - priorityclasses
+  - apiVersion: storage.k8s.io/v1
+    kind: CSIDriver
+    aliases:
+      - csidriver
+      - csidrivers
+  - apiVersion: storage.k8s.io/v1
+    kind: CSINode
+    aliases:
+      - csinode
+      - csinodes
+  - apiVersion: storage.k8s.io/v1
+    kind: CSIStorageCapacity
+    aliases:
+      - csistoragecapacities
+      - csistoragecapacity
+  - apiVersion: storage.k8s.io/v1
+    kind: StorageClass
+    aliases:
+      - sc
+      - storageclass
+      - storageclasses
+  - apiVersion: storage.k8s.io/v1
+    kind: VolumeAttachment
+    aliases:
+      - volumeattachment
+      - volumeattachments
+  - apiVersion: groupsnapshot.storage.k8s.io/v1alpha1
+    kind: VolumeGroupSnapshot
+    aliases:
+      - vgs
+      - volumegroupsnapshot
+      - volumegroupsnapshots
+  - apiVersion: groupsnapshot.storage.k8s.io/v1alpha1
+    kind: VolumeGroupSnapshotClass
+    aliases:
+      - vgsclass
+      - vgsclasses
+      - volumegroupsnapshotclass
+      - volumegroupsnapshotclasses
+  - apiVersion: groupsnapshot.storage.k8s.io/v1alpha1
+    kind: VolumeGroupSnapshotContent
+    aliases:
+      - vgsc
+      - vgscs
+      - volumegroupsnapshotcontent
+      - volumegroupsnapshotcontents
+  - apiVersion: snapshot.storage.k8s.io/v1
+    kind: VolumeSnapshot
+    aliases:
+      - volumesnapshot
+      - volumesnapshots
+      - vs
+  - apiVersion: snapshot.storage.k8s.io/v1
+    kind: VolumeSnapshotClass
+    aliases:
+      - volumesnapshotclass
+      - volumesnapshotclasses
+      - vsclass
+      - vsclasses
+  - apiVersion: snapshot.storage.k8s.io/v1
+    kind: VolumeSnapshotContent
+    aliases:
+      - volumesnapshotcontent
+      - volumesnapshotcontents
+      - vsc
+      - vscs
