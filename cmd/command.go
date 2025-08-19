@@ -8,14 +8,17 @@ package cmd
 
 import (
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/joshdk/buildversion"
 	"github.com/spf13/cobra"
 
 	"github.com/joshdk/krf/cmd/mflag"
+	"github.com/joshdk/krf/config"
 	"github.com/joshdk/krf/matcher"
 	"github.com/joshdk/krf/printer"
+	"github.com/joshdk/krf/resolver"
 	"github.com/joshdk/krf/resources"
 )
 
@@ -82,6 +85,15 @@ func Command() *cobra.Command {
 }
 
 func cmdFunc(mf *mflag.FlagSet, output string, args []string) error {
+	configFilename := filepath.Join(os.Getenv("HOME"), ".config", "krf", "configuration.yaml")
+
+	cfg, err := config.InitAndLoad(configFilename)
+	if err != nil {
+		return err
+	}
+
+	resolver.Init(cfg.Resources)
+
 	allMatchers, err := mf.Matcher()
 	if err != nil {
 		return err

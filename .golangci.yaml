@@ -31,6 +31,7 @@ linters:
     - noinlineerr
     - varnamelen
     - wrapcheck
+    - mnd
 
     # Linters that are deprecated.
     - wsl
