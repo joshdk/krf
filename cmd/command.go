@@ -7,6 +7,7 @@
 package cmd
 
 import (
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -23,7 +24,7 @@ import (
 )
 
 // Command returns a complete command line handler for krf.
-func Command() *cobra.Command {
+func Command() *cobra.Command { //nolint:funlen
 	cmd := &cobra.Command{
 		Use:     "krf [directory|file|-]",
 		Long:    "krf - kubernetes resource filter",
@@ -89,48 +90,53 @@ func Command() *cobra.Command {
 		"",
 		"output format (name,table,yaml)")
 
-	cmd.RunE = func(_ *cobra.Command, args []string) error {
-		return cmdFunc(mf, *output, args)
+	var state struct {
+		allMatchers matcher.Matcher
+		printerFn   func(io.Writer, []resources.Resource) error
+		source      string
+	}
+
+	cmd.PreRunE = func(_ *cobra.Command, args []string) error {
+		configFilename := filepath.Join(os.Getenv("HOME"), ".config", "krf", "configuration.yaml")
+
+		cfg, err := config.InitAndLoad(configFilename)
+		if err != nil {
+			return err
+		}
+
+		resolver.Init(cfg.Resources)
+
+		state.printerFn, err = printer.ByName(*output)
+		if err != nil {
+			return err
+		}
+
+		state.allMatchers, err = mf.Matcher()
+		if err != nil {
+			return err
+		}
+
+		if len(args) > 0 {
+			state.source = args[0]
+		}
+
+		return nil
+	}
+
+	cmd.RunE = func(*cobra.Command, []string) error {
+		var results []resources.Resource
+
+		err := resources.Decode(state.source, func(item resources.Resource) {
+			if state.allMatchers.Matches(item) {
+				results = append(results, item)
+			}
+		})
+		if err != nil {
+			return err
+		}
+
+		return state.printerFn(os.Stdout, results)
 	}
 
 	return cmd
-}
-
-func cmdFunc(mf *mflag.FlagSet, output string, args []string) error {
-	configFilename := filepath.Join(os.Getenv("HOME"), ".config", "krf", "configuration.yaml")
-
-	cfg, err := config.InitAndLoad(configFilename)
-	if err != nil {
-		return err
-	}
-
-	resolver.Init(cfg.Resources)
-
-	allMatchers, err := mf.Matcher()
-	if err != nil {
-		return err
-	}
-
-	printerFn, err := printer.ByName(output)
-	if err != nil {
-		return err
-	}
-
-	var source string
-	if len(args) > 0 {
-		source = args[0]
-	}
-
-	var results []resources.Resource
-
-	err = resources.Decode(source, func(item resources.Resource) {
-		if allMatchers.Matches(item) {
-			results = append(results, item)
-		}
-	})
-	if err != nil {
-		return err
-	}
-
-	return printerFn(os.Stdout, results)
 }
