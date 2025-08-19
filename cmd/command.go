@@ -46,6 +46,18 @@ func Command() *cobra.Command {
 
 	mf := mflag.NewMatcherFlags(cmd.Flags())
 
+	// Define --kind flag.
+	mf.StringSliceErrorMatcher(matcher.NewKindMatcher,
+		"kind",
+		nil,
+		"include resources by kind")
+
+	// Define --not-kind flag.
+	mf.StringSliceErrorMatcher(matcher.NewKindMatcher,
+		"not-kind",
+		nil,
+		"exclude resources by kind")
+
 	// Define --name flag.
 	mf.StringSliceErrorMatcher(matcher.NewNameMatcher,
 		"name",
