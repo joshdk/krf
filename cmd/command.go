@@ -83,7 +83,13 @@ func Command() *cobra.Command { //nolint:funlen
 		nil,
 		"exclude resources by namespace")
 
-	// Define --format flag.
+	// Define --config flag.
+	cfgfile := cmd.Flags().String(
+		"config",
+		"~/.config/krf/configuration.yaml",
+		"path to config file")
+
+	// Define --output flag.
 	output := cmd.Flags().StringP(
 		"output",
 		"o",
@@ -97,7 +103,10 @@ func Command() *cobra.Command { //nolint:funlen
 	}
 
 	cmd.PreRunE = func(_ *cobra.Command, args []string) error {
-		configFilename := filepath.Join(os.Getenv("HOME"), ".config", "krf", "configuration.yaml")
+		configFilename := *cfgfile
+		if strings.HasPrefix(configFilename, "~/") {
+			configFilename = filepath.Join(os.Getenv("HOME"), configFilename[2:])
+		}
 
 		cfg, err := config.InitAndLoad(configFilename)
 		if err != nil {
