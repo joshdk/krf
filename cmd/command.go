@@ -47,6 +47,12 @@ func Command() *cobra.Command { //nolint:funlen
 
 	mf := mflag.NewMatcherFlags(cmd.Flags())
 
+	// Define --cluster-scoped flag.
+	mf.BoolMatcher(matcher.NewClusterScopedMatcher,
+		"cluster-scoped",
+		false,
+		"include resources that are cluster-scoped")
+
 	// Define --kind flag.
 	mf.StringSliceErrorMatcher(matcher.NewKindMatcher,
 		"kind",
@@ -82,6 +88,12 @@ func Command() *cobra.Command { //nolint:funlen
 		"not-namespace",
 		nil,
 		"exclude resources by namespace")
+
+	// Define --namespace-scoped flag.
+	mf.BoolMatcher(matcher.NewNamespaceScopedMatcher,
+		"namespace-scoped",
+		false,
+		"include resources that are namespace-scoped")
 
 	// Define --config flag.
 	cfgfile := cmd.Flags().String(
