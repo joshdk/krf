@@ -17,6 +17,8 @@ type Resource struct {
 	Kind       string `yaml:"kind"`
 
 	Aliases []string `yaml:"aliases"`
+
+	Namespaced bool `yaml:"namespaced"`
 }
 
 // resources is a shared collection of Resource metadata definitions utilized

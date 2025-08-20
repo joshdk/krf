@@ -4,6 +4,7 @@ kind: Configuration
 resources:
   - apiVersion: v1
     kind: Binding
+    namespaced: true
     aliases:
       - binding
       - bindings
@@ -15,23 +16,27 @@ resources:
       - cs
   - apiVersion: v1
     kind: ConfigMap
+    namespaced: true
     aliases:
       - cm
       - configmap
       - configmaps
   - apiVersion: v1
     kind: Endpoints
+    namespaced: true
     aliases:
       - endpoints
       - ep
   - apiVersion: v1
     kind: Event
+    namespaced: true
     aliases:
       - ev
       - event
       - events
   - apiVersion: v1
     kind: LimitRange
+    namespaced: true
     aliases:
       - limitrange
       - limitranges
@@ -56,98 +61,115 @@ resources:
       - pv
   - apiVersion: v1
     kind: PersistentVolumeClaim
+    namespaced: true
     aliases:
       - persistentvolumeclaim
       - persistentvolumeclaims
       - pvc
   - apiVersion: v1
     kind: Pod
+    namespaced: true
     aliases:
       - po
       - pod
       - pods
   - apiVersion: v1
     kind: PodTemplate
+    namespaced: true
     aliases:
       - podtemplate
       - podtemplates
   - apiVersion: v1
     kind: ReplicationController
+    namespaced: true
     aliases:
       - rc
       - replicationcontroller
       - replicationcontrollers
   - apiVersion: v1
     kind: ResourceQuota
+    namespaced: true
     aliases:
       - quota
       - resourcequota
       - resourcequotas
   - apiVersion: v1
     kind: Secret
+    namespaced: true
     aliases:
       - secret
       - secrets
   - apiVersion: v1
     kind: Service
+    namespaced: true
     aliases:
       - service
       - services
       - svc
   - apiVersion: v1
     kind: ServiceAccount
+    namespaced: true
     aliases:
       - sa
       - serviceaccount
       - serviceaccounts
   - apiVersion: apps/v1
     kind: ControllerRevision
+    namespaced: true
     aliases:
       - controllerrevision
       - controllerrevisions
   - apiVersion: apps/v1
     kind: DaemonSet
+    namespaced: true
     aliases:
       - daemonset
       - daemonsets
       - ds
   - apiVersion: apps/v1
     kind: Deployment
+    namespaced: true
     aliases:
       - deploy
       - deployment
       - deployments
   - apiVersion: apps/v1
     kind: ReplicaSet
+    namespaced: true
     aliases:
       - replicaset
       - replicasets
       - rs
   - apiVersion: apps/v1
     kind: StatefulSet
+    namespaced: true
     aliases:
       - statefulset
       - statefulsets
       - sts
   - apiVersion: autoscaling/v2
     kind: HorizontalPodAutoscaler
+    namespaced: true
     aliases:
       - horizontalpodautoscaler
       - horizontalpodautoscalers
       - hpa
   - apiVersion: batch/v1
     kind: CronJob
+    namespaced: true
     aliases:
       - cj
       - cronjob
       - cronjobs
   - apiVersion: batch/v1
     kind: Job
+    namespaced: true
     aliases:
       - job
       - jobs
   - apiVersion: policy/v1
     kind: PodDisruptionBudget
+    namespaced: true
     aliases:
       - pdb
       - poddisruptionbudget
@@ -206,6 +228,7 @@ resources:
       - tokenreviews
   - apiVersion: authorization.k8s.io/v1
     kind: LocalSubjectAccessReview
+    namespaced: true
     aliases:
       - localsubjectaccessreview
       - localsubjectaccessreviews
@@ -236,22 +259,26 @@ resources:
       - clusterrolebindings
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: Role
+    namespaced: true
     aliases:
       - role
       - roles
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: RoleBinding
+    namespaced: true
     aliases:
       - rolebinding
       - rolebindings
   - apiVersion: autoscaling.k8s.io/v1
     kind: VerticalPodAutoscaler
+    namespaced: true
     aliases:
       - verticalpodautoscaler
       - verticalpodautoscalers
       - vpa
   - apiVersion: autoscaling.k8s.io/v1
     kind: VerticalPodAutoscalerCheckpoint
+    namespaced: true
     aliases:
       - verticalpodautoscalercheckpoint
       - verticalpodautoscalercheckpoints
@@ -264,16 +291,19 @@ resources:
       - csr
   - apiVersion: coordination.k8s.io/v1
     kind: Lease
+    namespaced: true
     aliases:
       - lease
       - leases
   - apiVersion: discovery.k8s.io/v1
     kind: EndpointSlice
+    namespaced: true
     aliases:
       - endpointslice
       - endpointslices
   - apiVersion: events.k8s.io/v1
     kind: Event
+    namespaced: true
     aliases:
       - ev
       - event
@@ -285,16 +315,19 @@ resources:
       - nodes
   - apiVersion: metrics.k8s.io/v1beta1
     kind: PodMetrics
+    namespaced: true
     aliases:
       - podmetrics
       - pods
   - apiVersion: external.metrics.k8s.io/v1beta1
     kind: ExternalMetricValueList
+    namespaced: true
     aliases:
       - externalmetrics
       - externalmetricvaluelist
   - apiVersion: networking.k8s.io/v1
     kind: Ingress
+    namespaced: true
     aliases:
       - ing
       - ingress
@@ -306,6 +339,7 @@ resources:
       - ingressclasses
   - apiVersion: networking.k8s.io/v1
     kind: NetworkPolicy
+    namespaced: true
     aliases:
       - netpol
       - networkpolicies
@@ -333,6 +367,7 @@ resources:
       - csinodes
   - apiVersion: storage.k8s.io/v1
     kind: CSIStorageCapacity
+    namespaced: true
     aliases:
       - csistoragecapacities
       - csistoragecapacity
@@ -349,6 +384,7 @@ resources:
       - volumeattachments
   - apiVersion: groupsnapshot.storage.k8s.io/v1alpha1
     kind: VolumeGroupSnapshot
+    namespaced: true
     aliases:
       - vgs
       - volumegroupsnapshot
@@ -369,6 +405,7 @@ resources:
       - volumegroupsnapshotcontents
   - apiVersion: snapshot.storage.k8s.io/v1
     kind: VolumeSnapshot
+    namespaced: true
     aliases:
       - volumesnapshot
       - volumesnapshots
