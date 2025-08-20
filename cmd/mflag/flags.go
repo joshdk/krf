@@ -73,7 +73,23 @@ func (m *FlagSet) Matcher() (matcher.Matcher, error) {
 	return chain, nil
 }
 
-// StringSliceMatcher creates the named flag and pairs it with the given
+// BoolMatcher creates a named bool flag paired with the given matcher.Matcher
+// constructor.
+func (m *FlagSet) BoolMatcher(callback func() matcher.Matcher, name string, value bool, usage string) {
+	result := m.flags.Bool(name, value, usage)
+
+	fn := func() ([]matcher.Matcher, error) {
+		if !*result {
+			return nil, nil
+		}
+
+		return []matcher.Matcher{callback()}, nil
+	}
+
+	m.add(name, fn)
+}
+
+// StringSliceMatcher creates a named string slice flag paired with the given
 // matcher.Matcher constructor.
 func (m *FlagSet) StringSliceMatcher(callback func(string) matcher.Matcher, name string, value []string, usage string) {
 	m.StringSliceErrorMatcher(func(s string) (matcher.Matcher, error) {
@@ -81,8 +97,8 @@ func (m *FlagSet) StringSliceMatcher(callback func(string) matcher.Matcher, name
 	}, name, value, usage)
 }
 
-// StringSliceErrorMatcher creates the named flag and pairs it with the given
-// matcher.Matcher constructor.
+// StringSliceErrorMatcher creates a named string slice flag paired with the
+// given matcher.Matcher constructor (which can return an error).
 func (m *FlagSet) StringSliceErrorMatcher(callback func(string) (matcher.Matcher, error), name string, value []string, usage string) {
 	results := m.flags.StringSlice(name, value, usage)
 
