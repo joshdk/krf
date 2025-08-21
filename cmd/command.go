@@ -95,6 +95,18 @@ func Command() *cobra.Command { //nolint:funlen
 		false,
 		"include resources that are namespace-scoped")
 
+	// Define --references flag.
+	mf.StringSliceErrorMatcher(matcher.NewReferenceMatcher,
+		"references",
+		nil,
+		"include resources that reference resource")
+
+	// Define --not-references flag.
+	mf.StringSliceErrorMatcher(matcher.NewReferenceMatcher,
+		"not-references",
+		nil,
+		"exclude resources that reference resource")
+
 	// Define --config flag.
 	cfgfile := cmd.Flags().String(
 		"config",
