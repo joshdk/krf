@@ -53,12 +53,20 @@ resources:
       - 'no'
       - node
       - nodes
+    references:
+      - kind: ConfigMap
+        paths:
+          - spec/configSource/configMap
   - apiVersion: v1
     kind: PersistentVolume
     aliases:
       - persistentvolume
       - persistentvolumes
       - pv
+    references:
+      - kind: StorageClass
+        paths:
+          - spec/storageClassName
   - apiVersion: v1
     kind: PersistentVolumeClaim
     namespaced: true
@@ -66,6 +74,13 @@ resources:
       - persistentvolumeclaim
       - persistentvolumeclaims
       - pvc
+    references:
+      - kind: PersistentVolume
+        paths:
+          - spec/volumeName
+      - kind: StorageClass
+        paths:
+          - spec/storageClassName
   - apiVersion: v1
     kind: Pod
     namespaced: true
@@ -73,12 +88,57 @@ resources:
       - po
       - pod
       - pods
+    references:
+      - kind: ConfigMap
+        paths:
+          - spec/containers/env/valueFrom/configMapKeyRef/name
+          - spec/containers/envFrom/configMapRef/name
+          - spec/initContainers/env/valueFrom/configMapKeyRef/name
+          - spec/initContainers/envFrom/configMapRef/name
+          - spec/volumes/configMap/name
+          - spec/volumes/projected/sources/configMap/name
+      - kind: PersistentVolumeClaim
+        paths:
+          - spec/volumes/persistentVolumeClaim/claimName
+      - kind: PriorityClass
+        paths:
+          - spec/priorityClassName
+      - kind: Secret
+        paths:
+          - spec/containers/env/valueFrom/secretKeyRef/name
+          - spec/containers/envFrom/secretRef/name
+          - spec/imagePullSecrets/name
+          - spec/initContainers/env/valueFrom/secretKeyRef/name
+          - spec/initContainers/envFrom/secretRef/name
+          - spec/volumes/projected/sources/secret/name
+          - spec/volumes/secret/secretName
+      - kind: ServiceAccount
+        paths:
+          - spec/serviceAccountName
   - apiVersion: v1
     kind: PodTemplate
     namespaced: true
     aliases:
       - podtemplate
       - podtemplates
+    references:
+      - kind: ConfigMap
+        paths:
+          - template/spec/containers/env/valueFrom/configMapKeyRef/name
+          - template/spec/containers/envFrom/configMapRef/name
+          - template/spec/initContainers/env/valueFrom/configMapKeyRef/name
+          - template/spec/initContainers/envFrom/configMapRef/name
+          - template/spec/volumes/configMap/name
+          - template/spec/volumes/projected/sources/configMap/name
+      - kind: Secret
+        paths:
+          - template/spec/containers/env/valueFrom/secretKeyRef/name
+          - template/spec/containers/envFrom/secretRef/name
+          - template/spec/imagePullSecrets/name
+          - template/spec/initContainers/env/valueFrom/secretKeyRef/name
+          - template/spec/initContainers/envFrom/secretRef/name
+          - template/spec/volumes/projected/sources/secret/name
+          - template/spec/volumes/secret/secretName
   - apiVersion: v1
     kind: ReplicationController
     namespaced: true
@@ -86,6 +146,16 @@ resources:
       - rc
       - replicationcontroller
       - replicationcontrollers
+    references:
+      - kind: PersistentVolumeClaim
+        paths:
+          - spec/template/spec/volumes/persistentVolumeClaim/claimName
+      - kind: PriorityClass
+        paths:
+          - spec/template/spec/priorityClassName
+      - kind: ServiceAccount
+        paths:
+          - spec/template/spec/serviceAccountName
   - apiVersion: v1
     kind: ResourceQuota
     namespaced: true
@@ -113,6 +183,10 @@ resources:
       - sa
       - serviceaccount
       - serviceaccounts
+    references:
+      - kind: Secret
+        paths:
+          - imagePullSecrets/name
   - apiVersion: apps/v1
     kind: ControllerRevision
     namespaced: true
@@ -126,6 +200,33 @@ resources:
       - daemonset
       - daemonsets
       - ds
+    references:
+      - kind: ConfigMap
+        paths:
+          - spec/template/spec/containers/env/valueFrom/configMapKeyRef/name
+          - spec/template/spec/containers/envFrom/configMapRef/name
+          - spec/template/spec/initContainers/env/valueFrom/configMapKeyRef/name
+          - spec/template/spec/initContainers/envFrom/configMapRef/name
+          - spec/template/spec/volumes/configMap/name
+          - spec/template/spec/volumes/projected/sources/configMap/name
+      - kind: PersistentVolumeClaim
+        paths:
+          - spec/template/spec/volumes/persistentVolumeClaim/claimName
+      - kind: PriorityClass
+        paths:
+          - spec/template/spec/priorityClassName
+      - kind: Secret
+        paths:
+          - spec/template/spec/containers/env/valueFrom/secretKeyRef/name
+          - spec/template/spec/containers/envFrom/secretRef/name
+          - spec/template/spec/imagePullSecrets/name
+          - spec/template/spec/initContainers/env/valueFrom/secretKeyRef/name
+          - spec/template/spec/initContainers/envFrom/secretRef/name
+          - spec/template/spec/volumes/projected/sources/secret/name
+          - spec/template/spec/volumes/secret/secretName
+      - kind: ServiceAccount
+        paths:
+          - spec/template/spec/serviceAccountName
   - apiVersion: apps/v1
     kind: Deployment
     namespaced: true
@@ -133,6 +234,33 @@ resources:
       - deploy
       - deployment
       - deployments
+    references:
+      - kind: ConfigMap
+        paths:
+          - spec/template/spec/containers/env/valueFrom/configMapKeyRef/name
+          - spec/template/spec/containers/envFrom/configMapRef/name
+          - spec/template/spec/initContainers/env/valueFrom/configMapKeyRef/name
+          - spec/template/spec/initContainers/envFrom/configMapRef/name
+          - spec/template/spec/volumes/configMap/name
+          - spec/template/spec/volumes/projected/sources/configMap/name
+      - kind: PersistentVolumeClaim
+        paths:
+          - spec/template/spec/volumes/persistentVolumeClaim/claimName
+      - kind: PriorityClass
+        paths:
+          - spec/template/spec/priorityClassName
+      - kind: Secret
+        paths:
+          - spec/template/spec/containers/env/valueFrom/secretKeyRef/name
+          - spec/template/spec/containers/envFrom/secretRef/name
+          - spec/template/spec/imagePullSecrets/name
+          - spec/template/spec/initContainers/env/valueFrom/secretKeyRef/name
+          - spec/template/spec/initContainers/envFrom/secretRef/name
+          - spec/template/spec/volumes/projected/sources/secret/name
+          - spec/template/spec/volumes/secret/secretName
+      - kind: ServiceAccount
+        paths:
+          - spec/template/spec/serviceAccountName
   - apiVersion: apps/v1
     kind: ReplicaSet
     namespaced: true
@@ -140,6 +268,24 @@ resources:
       - replicaset
       - replicasets
       - rs
+    references:
+      - kind: ConfigMap
+        paths:
+          - spec/template/spec/containers/env/valueFrom/configMapKeyRef/name
+          - spec/template/spec/containers/envFrom/configMapRef/name
+          - spec/template/spec/initContainers/env/valueFrom/configMapKeyRef/name
+          - spec/template/spec/initContainers/envFrom/configMapRef/name
+          - spec/template/spec/volumes/configMap/name
+          - spec/template/spec/volumes/projected/sources/configMap/name
+      - kind: Secret
+        paths:
+          - spec/template/spec/containers/env/valueFrom/secretKeyRef/name
+          - spec/template/spec/containers/envFrom/secretRef/name
+          - spec/template/spec/imagePullSecrets/name
+          - spec/template/spec/initContainers/env/valueFrom/secretKeyRef/name
+          - spec/template/spec/initContainers/envFrom/secretRef/name
+          - spec/template/spec/volumes/projected/sources/secret/name
+          - spec/template/spec/volumes/secret/secretName
   - apiVersion: apps/v1
     kind: StatefulSet
     namespaced: true
@@ -147,6 +293,39 @@ resources:
       - statefulset
       - statefulsets
       - sts
+    references:
+      - kind: ConfigMap
+        paths:
+          - spec/template/spec/containers/env/valueFrom/configMapKeyRef/name
+          - spec/template/spec/containers/envFrom/configMapRef/name
+          - spec/template/spec/initContainers/env/valueFrom/configMapKeyRef/name
+          - spec/template/spec/initContainers/envFrom/configMapRef/name
+          - spec/template/spec/volumes/configMap/name
+          - spec/template/spec/volumes/projected/sources/configMap/name
+      - kind: PersistentVolumeClaim
+        paths:
+          - spec/template/spec/volumes/persistentVolumeClaim/claimName
+      - kind: PriorityClass
+        paths:
+          - spec/template/spec/priorityClassName
+      - kind: Secret
+        paths:
+          - spec/template/spec/containers/env/valueFrom/secretKeyRef/name
+          - spec/template/spec/containers/envFrom/secretRef/name
+          - spec/template/spec/imagePullSecrets/name
+          - spec/template/spec/initContainers/env/valueFrom/secretKeyRef/name
+          - spec/template/spec/initContainers/envFrom/secretRef/name
+          - spec/template/spec/volumes/projected/sources/secret/name
+          - spec/template/spec/volumes/secret/secretName
+      - kind: Service
+        paths:
+          - spec/serviceName
+      - kind: ServiceAccount
+        paths:
+          - spec/template/spec/serviceAccountName
+      - kind: StorageClass
+        paths:
+          - spec/volumeClaimTemplates/spec/storageClassName
   - apiVersion: autoscaling/v2
     kind: HorizontalPodAutoscaler
     namespaced: true
@@ -154,6 +333,19 @@ resources:
       - horizontalpodautoscaler
       - horizontalpodautoscalers
       - hpa
+    references:
+      - kind: Deployment
+        paths:
+          - spec/scaleTargetRef/name
+      - kind: ReplicaSet
+        paths:
+          - spec/scaleTargetRef/name
+      - kind: ReplicationController
+        paths:
+          - spec/scaleTargetRef/name
+      - kind: StatefulSet
+        paths:
+          - spec/scaleTargetRef/name
   - apiVersion: batch/v1
     kind: CronJob
     namespaced: true
@@ -161,12 +353,66 @@ resources:
       - cj
       - cronjob
       - cronjobs
+    references:
+      - kind: ConfigMap
+        paths:
+          - spec/jobTemplate/spec/template/spec/containers/env/valueFrom/configMapKeyRef/name
+          - spec/jobTemplate/spec/template/spec/containers/envFrom/configMapRef/name
+          - spec/jobTemplate/spec/template/spec/initContainers/env/valueFrom/configMapKeyRef/name
+          - spec/jobTemplate/spec/template/spec/initContainers/envFrom/configMapRef/name
+          - spec/jobTemplate/spec/template/spec/volumes/configMap/name
+          - spec/jobTemplate/spec/template/spec/volumes/projected/sources/configMap/name
+      - kind: PersistentVolumeClaim
+        paths:
+          - spec/jobTemplate/spec/template/spec/volumes/persistentVolumeClaim/claimName
+      - kind: PriorityClass
+        paths:
+          - spec/jobTemplate/spec/template/spec/priorityClassName
+      - kind: Secret
+        paths:
+          - spec/jobTemplate/spec/template/spec/containers/env/valueFrom/secretKeyRef/name
+          - spec/jobTemplate/spec/template/spec/containers/envFrom/secretRef/name
+          - spec/jobTemplate/spec/template/spec/imagePullSecrets/name
+          - spec/jobTemplate/spec/template/spec/initContainers/env/valueFrom/secretKeyRef/name
+          - spec/jobTemplate/spec/template/spec/initContainers/envFrom/secretRef/name
+          - spec/jobTemplate/spec/template/spec/volumes/projected/sources/secret/name
+          - spec/jobTemplate/spec/template/spec/volumes/secret/secretName
+      - kind: ServiceAccount
+        paths:
+          - spec/jobTemplate/spec/template/spec/serviceAccountName
   - apiVersion: batch/v1
     kind: Job
     namespaced: true
     aliases:
       - job
       - jobs
+    references:
+      - kind: ConfigMap
+        paths:
+          - spec/template/spec/containers/env/valueFrom/configMapKeyRef/name
+          - spec/template/spec/containers/envFrom/configMapRef/name
+          - spec/template/spec/initContainers/env/valueFrom/configMapKeyRef/name
+          - spec/template/spec/initContainers/envFrom/configMapRef/name
+          - spec/template/spec/volumes/configMap/name
+          - spec/template/spec/volumes/projected/sources/configMap/name
+      - kind: PersistentVolumeClaim
+        paths:
+          - spec/template/spec/volumes/persistentVolumeClaim/claimName
+      - kind: PriorityClass
+        paths:
+          - spec/template/spec/priorityClassName
+      - kind: Secret
+        paths:
+          - spec/template/spec/containers/env/valueFrom/secretKeyRef/name
+          - spec/template/spec/containers/envFrom/secretRef/name
+          - spec/template/spec/imagePullSecrets/name
+          - spec/template/spec/initContainers/env/valueFrom/secretKeyRef/name
+          - spec/template/spec/initContainers/envFrom/secretRef/name
+          - spec/template/spec/volumes/projected/sources/secret/name
+          - spec/template/spec/volumes/secret/secretName
+      - kind: ServiceAccount
+        paths:
+          - spec/template/spec/serviceAccountName
   - apiVersion: policy/v1
     kind: PodDisruptionBudget
     namespaced: true
@@ -179,6 +425,10 @@ resources:
     aliases:
       - mutatingwebhookconfiguration
       - mutatingwebhookconfigurations
+    references:
+      - kind: Service
+        paths:
+          - webhooks/clientConfig/service
   - apiVersion: admissionregistration.k8s.io/v1
     kind: ValidatingAdmissionPolicy
     aliases:
@@ -189,11 +439,19 @@ resources:
     aliases:
       - validatingadmissionpolicybinding
       - validatingadmissionpolicybindings
+    references:
+      - kind: ValidatingAdmissionPolicy
+        paths:
+          - spec/policyName
   - apiVersion: admissionregistration.k8s.io/v1
     kind: ValidatingWebhookConfiguration
     aliases:
       - validatingwebhookconfiguration
       - validatingwebhookconfigurations
+    references:
+      - kind: Service
+        paths:
+          - webhooks/clientConfig/service
   - apiVersion: apiextensions.k8s.io/v1
     kind: CustomResourceDefinition
     aliases:
@@ -206,6 +464,10 @@ resources:
     aliases:
       - apiservice
       - apiservices
+    references:
+      - kind: Service
+        paths:
+          - spec/service/name
   - apiVersion: flowcontrol.apiserver.k8s.io/v1
     kind: FlowSchema
     aliases:
@@ -252,23 +514,57 @@ resources:
     aliases:
       - clusterrole
       - clusterroles
+    references:
+      - kind: ConfigMap
+        paths:
+          - rules/resourceNames
+      - kind: PersistentVolume
+        paths:
+          - rules/resourceNames
+      - kind: Secret
+        paths:
+          - rules/resourceNames
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     aliases:
       - clusterrolebinding
       - clusterrolebindings
+    references:
+      - kind: ClusterRole
+        paths:
+          - roleRef/name
+      - kind: ServiceAccount
+        paths:
+          - subjects
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: Role
     namespaced: true
     aliases:
       - role
       - roles
+    references:
+      - kind: ConfigMap
+        paths:
+          - rules/resourceNames
+      - kind: Secret
+        paths:
+          - rules/resourceNames
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: RoleBinding
     namespaced: true
     aliases:
       - rolebinding
       - rolebindings
+    references:
+      - kind: ClusterRole
+        paths:
+          - roleRef/name
+      - kind: Role
+        paths:
+          - roleRef/name
+      - kind: ServiceAccount
+        paths:
+          - subjects
   - apiVersion: autoscaling.k8s.io/v1
     kind: VerticalPodAutoscaler
     namespaced: true
@@ -332,6 +628,25 @@ resources:
       - ing
       - ingress
       - ingresses
+    references:
+      - kind: ConfigMap
+        paths:
+          - metadata/annotations/nginx.ingress.kubernetes.io\/fastcgi-params-configmap
+      - kind: IngressClass
+        paths:
+          - spec/ingressClassName
+      - kind: Secret
+        paths:
+          - metadata/annotations/ingress.kubernetes.io\/auth-secret
+          - metadata/annotations/nginx.ingress.kubernetes.io\/auth-secret
+          - metadata/annotations/nginx.ingress.kubernetes.io\/auth-tls-secret
+          - spec/tls/secretName
+      - kind: Service
+        paths:
+          - spec/backend/serviceName
+          - spec/defaultBackend/service/name
+          - spec/rules/http/paths/backend/service/name
+          - spec/rules/http/paths/backend/serviceName
   - apiVersion: networking.k8s.io/v1
     kind: IngressClass
     aliases:
@@ -377,6 +692,13 @@ resources:
       - sc
       - storageclass
       - storageclasses
+    references:
+      - kind: Secret
+        paths:
+          - parameters/adminSecretName
+          - parameters/secretName
+          - parameters/secretRef
+          - parameters/userSecretName
   - apiVersion: storage.k8s.io/v1
     kind: VolumeAttachment
     aliases:
