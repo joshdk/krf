@@ -22,7 +22,10 @@ jobs:
           go-version-file: go.mod
 
       - shell: sh
-        run: go mod tidy -diff
+        run: |
+          (cd $(mktemp -d) && go install github.com/joshdk/modfmt@master)
+          go mod tidy -diff
+          modfmt -l -c ./...
 
       - uses: golangci/golangci-lint-action@v8
         with:
