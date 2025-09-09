@@ -23,3 +23,41 @@ builds:
 
     env:
       - CGO_ENABLED=0
+
+archives:
+  - formats: [tar.gz]
+    name_template: "{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}"
+
+release:
+  name_template: "{{ .Tag }} Release"
+  prerelease: auto
+
+changelog:
+  disable: true
+
+checksum:
+  disable: true
+
+homebrew_casks:
+  - description: Command line utility for filtering collections of Kubernetes resources
+    homepage: https://github.com/joshdk/krf
+    license: MIT
+
+    commit_author:
+      name: Josh Komoroske
+      email: jdkomo@gmail.com
+
+    hooks:
+      post:
+        install: |
+          if OS.mac?
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/{{ .ProjectName }}"]
+          end
+
+    repository:
+      owner: joshdk
+      name: homebrew-tap
+
+      git:
+        url: git@github.com:joshdk/homebrew-tap.git
+        private_key: "{{ .Env.HOMEBREW_DEPLOY_KEY }}"
