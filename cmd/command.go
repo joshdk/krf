@@ -107,6 +107,30 @@ func Command() *cobra.Command { //nolint:funlen
 		nil,
 		"exclude resources that reference resource")
 
+	// Define --patch flag.
+	mf.BoolMatcher(matcher.NewPatchMatcher,
+		"patch",
+		false,
+		"include resources by from patch files")
+
+	// Define --not-patch flag.
+	mf.BoolMatcher(matcher.NewPatchMatcher,
+		"not-patch",
+		false,
+		"exclude resources by from patch files")
+
+	// Define --path flag.
+	mf.StringSliceMatcher(matcher.NewPathMatcher,
+		"path",
+		nil,
+		"include resources by file path")
+
+	// Define --not-path flag.
+	mf.StringSliceMatcher(matcher.NewPathMatcher,
+		"not-path",
+		nil,
+		"exclude resources by file path")
+
 	// Define --config flag.
 	cfgfile := cmd.Flags().String(
 		"config",
