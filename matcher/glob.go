@@ -27,3 +27,16 @@ func asGlob(pattern string) (glob.Glob, error) {
 
 	return glob.Compile(pattern)
 }
+
+// splitSelector splits the given string into two pieces around an equal sign.
+func splitSelector(selector string) (string, string) {
+	parts := strings.SplitN(selector, "=", 2)
+	switch len(parts) {
+	case 2:
+		return parts[0], parts[1]
+	case 1:
+		return parts[0], ""
+	default:
+		return "", ""
+	}
+}
