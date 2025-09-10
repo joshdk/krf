@@ -47,6 +47,18 @@ func Command() *cobra.Command { //nolint:funlen
 
 	mf := mflag.NewMatcherFlags(cmd.Flags())
 
+	// Define --apiversion flag.
+	mf.StringSliceErrorMatcher(matcher.NewAPIVersionMatcher,
+		"apiversion",
+		nil,
+		"include resources by api version")
+
+	// Define --not-apiversion flag.
+	mf.StringSliceErrorMatcher(matcher.NewAPIVersionMatcher,
+		"not-apiversion",
+		nil,
+		"exclude resources by api version")
+
 	// Define --cluster-scoped flag.
 	mf.BoolMatcher(matcher.NewClusterScopedMatcher,
 		"cluster-scoped",
