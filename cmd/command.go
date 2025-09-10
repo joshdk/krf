@@ -47,6 +47,18 @@ func Command() *cobra.Command { //nolint:funlen
 
 	mf := mflag.NewMatcherFlags(cmd.Flags())
 
+	// Define --annotation flag.
+	mf.StringSliceErrorMatcher(matcher.NewAnnotationMatcher,
+		"annotation",
+		nil,
+		"include resources by annotation")
+
+	// Define --not-annotation flag.
+	mf.StringSliceErrorMatcher(matcher.NewAnnotationMatcher,
+		"not-annotation",
+		nil,
+		"exclude resources by annotation")
+
 	// Define --apiversion flag.
 	mf.StringSliceErrorMatcher(matcher.NewAPIVersionMatcher,
 		"apiversion",
@@ -76,6 +88,18 @@ func Command() *cobra.Command { //nolint:funlen
 		"not-kind",
 		nil,
 		"exclude resources by kind")
+
+	// Define --label flag.
+	mf.StringSliceErrorMatcher(matcher.NewLabelMatcher,
+		"label",
+		nil,
+		"include resources by label")
+
+	// Define --not-label flag.
+	mf.StringSliceErrorMatcher(matcher.NewLabelMatcher,
+		"not-label",
+		nil,
+		"exclude resources by label")
 
 	// Define --name flag.
 	mf.StringSliceErrorMatcher(matcher.NewNameMatcher,
