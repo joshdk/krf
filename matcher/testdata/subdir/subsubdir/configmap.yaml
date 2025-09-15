@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-configmap
+  namespace: custom-app
+  labels:
+    app.kubernetes.io/component: auth
+  annotations:
+    kubernetes.io/description: admin configuration
+data:
+  username: k8s-admin
+  access_level: "1"
