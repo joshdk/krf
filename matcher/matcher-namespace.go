@@ -27,5 +27,10 @@ type namespaceMatcher struct {
 }
 
 func (m namespaceMatcher) Matches(item resources.Resource) bool {
+	// Prevent wildcard matches against empty namespace values.
+	if item.GetNamespace() == "" {
+		return false
+	}
+
 	return m.namespaceGlob.Match(item.GetNamespace())
 }
