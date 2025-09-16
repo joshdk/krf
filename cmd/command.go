@@ -77,6 +77,18 @@ func Command() *cobra.Command { //nolint:funlen
 		false,
 		"include resources that are cluster-scoped")
 
+	// Define --jsonpath flag.
+	mf.StringSliceErrorMatcher(matcher.NewJsonpathMatcher,
+		"jsonpath",
+		nil,
+		"include resources by jsonpath")
+
+	// Define --not-jsonpath flag.
+	mf.StringSliceErrorMatcher(matcher.NewJsonpathMatcher,
+		"not-jsonpath",
+		nil,
+		"exclude resources by jsonpath")
+
 	// Define --kind flag.
 	mf.StringSliceErrorMatcher(matcher.NewKindMatcher,
 		"kind",

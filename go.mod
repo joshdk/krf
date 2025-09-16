@@ -3,6 +3,8 @@ module github.com/joshdk/krf
 go 1.25.0
 
 require (
+	github.com/PaesslerAG/gval v1.0.0
+	github.com/PaesslerAG/jsonpath v0.1.1
 	github.com/gobwas/glob v0.2.3
 	github.com/joshdk/buildversion v0.1.0
 	github.com/rodaine/table v1.3.0
