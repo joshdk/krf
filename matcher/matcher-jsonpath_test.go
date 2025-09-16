@@ -40,5 +40,28 @@ func TestJsonpathMatcher(t *testing.T) {
 			matcher: must(matcher.NewJsonpathMatcher(".data.username=*-admin")),
 			matches: []string{"ConfigMap/my-configmap"},
 		},
+		{
+			title:   "recursive existence of path",
+			matcher: must(matcher.NewJsonpathMatcher("{..containers}")),
+			matches: []string{
+				"Deployment/nginx-deployment",
+				"Pod/test-pod",
+			},
+		},
+		{
+			title:   "recursive compare value",
+			matcher: must(matcher.NewJsonpathMatcher("..containers.*.name=nginx")),
+			matches: []string{"Deployment/nginx-deployment"},
+		},
+		{
+			title:   "recursive compare value with wildcard",
+			matcher: must(matcher.NewJsonpathMatcher("..containers..envFrom..name=example-*")),
+			matches: []string{"Deployment/nginx-deployment"},
+		},
+		{
+			title:   "recursive compare int value",
+			matcher: must(matcher.NewJsonpathMatcher("..port=80")),
+			matches: []string{"Service/my-service"},
+		},
 	})
 }
