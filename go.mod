@@ -3,6 +3,7 @@ module github.com/joshdk/krf
 go 1.25.0
 
 require (
+	github.com/carapace-sh/carapace-shlex v1.1.0
 	github.com/gobwas/glob v0.2.3
 	github.com/joshdk/buildversion v0.1.0
 	github.com/rodaine/table v1.3.0

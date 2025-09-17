@@ -89,6 +89,27 @@ func (m *FlagSet) BoolMatcher(callback func() matcher.Matcher, name string, valu
 	m.add(name, fn)
 }
 
+// StringErrorMatcher creates a named string flag paired with the given
+// matcher.Matcher constructor (which can return an error).
+func (m *FlagSet) StringErrorMatcher(callback func(string) (matcher.Matcher, error), name string, value string, usage string) {
+	result := m.flags.String(name, value, usage)
+
+	fn := func() ([]matcher.Matcher, error) {
+		if *result == "" {
+			return nil, nil
+		}
+
+		mm, err := callback(*result)
+		if err != nil {
+			return nil, err
+		}
+
+		return []matcher.Matcher{mm}, nil
+	}
+
+	m.add(name, fn)
+}
+
 // StringSliceMatcher creates a named string slice flag paired with the given
 // matcher.Matcher constructor.
 func (m *FlagSet) StringSliceMatcher(callback func(string) matcher.Matcher, name string, value []string, usage string) {
