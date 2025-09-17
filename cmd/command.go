@@ -77,6 +77,18 @@ func Command() *cobra.Command { //nolint:funlen
 		false,
 		"include resources that are cluster-scoped")
 
+	// Define --exec flag.
+	mf.StringErrorMatcher(matcher.NewExecMatcher,
+		"exec",
+		"",
+		"include resources by executing a script")
+
+	// Define --not-exec flag.
+	mf.StringErrorMatcher(matcher.NewExecMatcher,
+		"not-exec",
+		"",
+		"exclude resources by executing a script")
+
 	// Define --jsonpath flag.
 	mf.StringSliceErrorMatcher(matcher.NewJsonpathMatcher,
 		"jsonpath",
