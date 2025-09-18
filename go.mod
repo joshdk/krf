@@ -5,6 +5,7 @@ go 1.25.0
 require (
 	github.com/carapace-sh/carapace-shlex v1.1.0
 	github.com/gobwas/glob v0.2.3
+	github.com/google/go-cmp v0.7.0
 	github.com/joshdk/buildversion v0.1.0
 	github.com/rodaine/table v1.3.0
 	github.com/spf13/cobra v1.9.1

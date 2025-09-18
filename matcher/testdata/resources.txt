@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubernetes.io/description: testing container
+  name: test-pod
+  namespace: custom-app-pr1234
+spec:
+  containers:
+  - command:
+    - /bin/bash # <------------------------------- changed value
+    - -c
+    - ls /etc/config
+    image: gcr.io/google_containers/busybox
+    name: test-container
+    volumeMounts:
+    - mountPath: /etc/config
+      name: config-volume
+  restartPolicy: Never
+  securityContext: null
+  volumes:
+  - configMap:
+      name: example-config
+    name: config-volume
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: myapp
+  name: my-service
+  namespace: custom-app
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 9376
+  - port: 8080
+    protocol: TCP
+    targetPort: 9377
+  selector:
+    app.kubernetes.io/name: myapp
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: read-secrets-global
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: secret-reader
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: manager
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kubernetes.io/description: proxy
+  labels:
+    app: nginx
+  name: nginx-deployment
+  namespace: default
+spec:
+  replicas: 4 # <------------------------------- changed value
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - envFrom:
+        - secretRef:
+            name: example-secrets
+        image: nginx:1.14.2
+        name: nginx
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+data:
+  access_level: "1"
+  username: k8s-admin
+kind: ConfigMap
+metadata:
+  annotations:
+    kubernetes.io/description: admin configuration
+  labels:
+    app.kubernetes.io/component: auth
+  name: my-configmap
+  namespace: custom-app
