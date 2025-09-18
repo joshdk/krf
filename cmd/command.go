@@ -77,6 +77,18 @@ func Command() *cobra.Command { //nolint:funlen
 		false,
 		"include resources that are cluster-scoped")
 
+	// Define --contains flag.
+	mf.StringSliceMatcher(matcher.NewContainsMatcher,
+		"contains",
+		nil,
+		"include resources by substring contents")
+
+	// Define --not-contains flag.
+	mf.StringSliceMatcher(matcher.NewContainsMatcher,
+		"not-contains",
+		nil,
+		"exclude resources by substring contents")
+
 	// Define --exec flag.
 	mf.StringErrorMatcher(matcher.NewExecMatcher,
 		"exec",
