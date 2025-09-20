@@ -26,13 +26,14 @@ jobs:
           version: v2.11.2
           args: build --clean --snapshot
 
+      - shell: sh
+        run: ./dist/krf_linux_amd64_v1/krf --version
+
       - uses: actions/upload-artifact@v4
+        continue-on-error: true
         with:
           name: artifacts
           path: dist/
-
-      - shell: sh
-        run: ./dist/krf_linux_amd64_v1/krf --version
 
   test:
     name: test
