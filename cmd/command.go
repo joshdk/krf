@@ -214,7 +214,7 @@ func Command() *cobra.Command { //nolint:funlen
 		"output",
 		"o",
 		"",
-		"output format (name,path,references,table,yaml)")
+		"output format (json,name,path,references,table,yaml)")
 
 	var state struct {
 		allMatchers matcher.Matcher
