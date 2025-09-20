@@ -34,6 +34,9 @@ func ByName(name string) (func(io.Writer, []resources.Resource) error, error) {
 		// Default for when output is directly to a terminal.
 		return Table, nil
 
+	case "json":
+		return JSON, nil
+
 	case "name":
 		return Name, nil
 
