@@ -8,6 +8,7 @@ package printer
 import (
 	"fmt"
 	"io"
+	"sort"
 
 	"github.com/joshdk/krf/resources"
 )
@@ -15,10 +16,24 @@ import (
 // Name prints each given resources.Resource in "name" format similar to
 // kubectl.
 func Name(w io.Writer, results []resources.Resource) error {
-	for _, item := range results {
-		if _, err := fmt.Fprintf(w, "%s/%s\n", item.GetKind(), item.GetName()); err != nil {
-			return err
+	names := make([]string, len(results))
+	for i, item := range results {
+		name := fmt.Sprintf("%s/%s", item.GetKind(), item.GetName())
+		names[i] = name
+	}
+
+	sort.Strings(names)
+
+	// Print each unique resource name.
+	var last string
+	for _, name := range names {
+		if name == last {
+			continue
 		}
+
+		last = name
+
+		fmt.Fprintln(w, name)
 	}
 
 	return nil
