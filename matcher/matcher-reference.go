@@ -60,14 +60,16 @@ type referenceMatcher struct {
 func (m referenceMatcher) Matches(item resources.Resource) bool {
 	// References to any kind.
 	if len(m.kinds) == 0 {
-		return references.References(item.Unstructured, "", func(s string) bool {
-			return m.nameGlob.Match(s)
+		return references.Search(item.Unstructured, "", func(_, name string) bool {
+			return m.nameGlob.Match(name)
 		})
 	}
 
 	// References to only the requested kind(s).
 	for _, kind := range m.kinds {
-		if references.References(item.Unstructured, kind, m.nameGlob.Match) {
+		if references.Search(item.Unstructured, kind, func(_, name string) bool {
+			return m.nameGlob.Match(name)
+		}) {
 			return true
 		}
 	}

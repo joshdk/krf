@@ -16,23 +16,38 @@ import (
 	"github.com/joshdk/krf/resolver"
 )
 
-// References searches the given unstructured.Unstructured for named resource
-// references of the given kind.
-func References(uu unstructured.Unstructured, kind string, callback func(s string) bool) bool {
-	if resource, found := resolver.LookupKind(uu.GetKind()); found {
-		for _, reference := range resource.References {
-			// Skip reference check as this isn't the kind we're looking for.
-			if kind != reference.Kind && kind != "" {
-				continue
-			}
+// Search examines the given unstructured.Unstructured for named resource
+// references of the given kind or all kinds.
+func Search(uu unstructured.Unstructured, kind string, callback func(kind, name string) bool) bool {
+	resource, found := resolver.LookupKind(uu.GetKind())
+	if !found {
+		return false
+	}
 
-			for _, spec := range reference.Paths {
-				if path.Walk(uu.Object, spec, callback) {
-					return true
-				}
+	for _, reference := range resource.References {
+		// Skip reference check as this isn't the kind we're looking for.
+		if kind != reference.Kind && kind != "" {
+			continue
+		}
+
+		for _, spec := range reference.Paths {
+			if path.Walk(uu.Object, spec, func(name string) bool {
+				return callback(reference.Kind, name)
+			}) {
+				return true
 			}
 		}
 	}
 
 	return false
+}
+
+// All iterates over all named resource references in the given
+// unstructured.Unstructured.
+func All(uu unstructured.Unstructured, callback func(kind, name string)) {
+	Search(uu, "", func(kind, name string) bool {
+		callback(kind, name)
+
+		return false
+	})
 }
