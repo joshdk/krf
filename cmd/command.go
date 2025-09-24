@@ -10,6 +10,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 
 	"github.com/joshdk/buildversion"
@@ -264,8 +265,34 @@ func Command() *cobra.Command { //nolint:funlen
 			return err
 		}
 
+		sortResources(results)
+
 		return state.printerFn(os.Stdout, results)
 	}
 
 	return cmd
+}
+
+// sortResources sorts the given resources.Resource list by filename, then
+// namespace, name, and finally kind.
+func sortResources(items []resources.Resource) {
+	slices.SortFunc(items, func(a, b resources.Resource) int {
+		if cmp := strings.Compare(a.GetFilename(), b.GetFilename()); cmp != 0 {
+			return cmp
+		}
+
+		if cmp := strings.Compare(a.GetNamespace(), b.GetNamespace()); cmp != 0 {
+			return cmp
+		}
+
+		if cmp := strings.Compare(a.GetName(), b.GetName()); cmp != 0 {
+			return cmp
+		}
+
+		if cmp := strings.Compare(a.GetKind(), b.GetKind()); cmp != 0 {
+			return cmp
+		}
+
+		return 0
+	})
 }
