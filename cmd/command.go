@@ -15,6 +15,7 @@ import (
 
 	"github.com/joshdk/buildversion"
 	"github.com/spf13/cobra"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 
 	"github.com/joshdk/krf/cmd/mflag"
 	"github.com/joshdk/krf/config"
@@ -210,6 +211,13 @@ func Command() *cobra.Command { //nolint:funlen
 		"~/.config/krf/configuration.yaml",
 		"path to config file")
 
+	// Define --no-simplify flag.
+	noSimplify := cmd.Flags().Bool(
+		"no-simplify",
+		false,
+		"skip simplifying resource properties",
+	)
+
 	// Define --output flag.
 	output := cmd.Flags().StringP(
 		"output",
@@ -265,12 +273,31 @@ func Command() *cobra.Command { //nolint:funlen
 			return err
 		}
 
+		if !*noSimplify {
+			simplifyResources(results)
+		}
+
 		sortResources(results)
 
 		return state.printerFn(os.Stdout, results)
 	}
 
 	return cmd
+}
+
+// simplifyResources removes a number of properties (specifically properties
+// that are automatically sey by Kubernetes after a resource is admitted) from
+// each item in the given resources.Resource list.
+func simplifyResources(items []resources.Resource) {
+	for _, item := range items {
+		unstructured.RemoveNestedField(item.Object, "metadata", "annotations", "kubectl.kubernetes.io/last-applied-configuration")
+		unstructured.RemoveNestedField(item.Object, "metadata", "creationTimestamp")
+		unstructured.RemoveNestedField(item.Object, "metadata", "generation")
+		unstructured.RemoveNestedField(item.Object, "metadata", "resourceVersion")
+		unstructured.RemoveNestedField(item.Object, "metadata", "uid")
+		unstructured.RemoveNestedField(item.Object, "ownerReferences")
+		unstructured.RemoveNestedField(item.Object, "status")
+	}
 }
 
 // sortResources sorts the given resources.Resource list by filename, then
