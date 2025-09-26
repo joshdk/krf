@@ -217,6 +217,18 @@ func Command() *cobra.Command { //nolint:funlen
 		nil,
 		"exclude resources that reference resource")
 
+	// Define --rego flag.
+	mf.StringSliceErrorMatcher(matcher.NewRegoMatcher,
+		"rego",
+		nil,
+		"include resources that match a rego policy")
+
+	// Define --not-rego flag.
+	mf.StringSliceErrorMatcher(matcher.NewRegoMatcher,
+		"not-rego",
+		nil,
+		"exclude resources that match a rego policy")
+
 	// Define --config flag.
 	cfgfile := cmd.Flags().String(
 		"config",
