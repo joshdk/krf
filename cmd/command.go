@@ -199,6 +199,16 @@ func Command() *cobra.Command { //nolint:funlen
 		"not-references",
 		"exclude resources that reference resource")
 
+	// Define --rego flag.
+	mf.StringSliceMatcher(matcher.NewRegoMatcher,
+		"rego",
+		"include resources that match a rego policy")
+
+	// Define --not-rego flag.
+	mf.StringSliceMatcher(matcher.NewRegoMatcher,
+		"not-rego",
+		"exclude resources that match a rego policy")
+
 	// Define --selector flag.
 	mf.StringMatcher(matcher.NewSelectorMatcher,
 		"selector",
