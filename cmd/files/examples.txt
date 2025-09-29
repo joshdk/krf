@@ -17,4 +17,11 @@
 
   Resources can then be filtered based on several different properties.
 
-  … | krf --name my-pod-
+  # By resource name:
+  … | krf --name backend
+
+  # By resource name and namespace:
+  … | krf --name backend --namespace default
+
+  # By multiple resource names and kinds:
+  … | krf --name backend,frontend --kind deploy,svc
