@@ -169,29 +169,17 @@ func Command() *cobra.Command { //nolint:funlen
 		false,
 		"include resources that are namespace-scoped")
 
-	// Define --references flag.
-	mf.StringSliceErrorMatcher(matcher.NewReferenceMatcher,
-		"references",
-		nil,
-		"include resources that reference resource")
-
-	// Define --not-references flag.
-	mf.StringSliceErrorMatcher(matcher.NewReferenceMatcher,
-		"not-references",
-		nil,
-		"exclude resources that reference resource")
-
 	// Define --patch flag.
 	mf.BoolMatcher(matcher.NewPatchMatcher,
 		"patch",
 		false,
-		"include resources by from patch files")
+		"include resources from patch files")
 
 	// Define --not-patch flag.
 	mf.BoolMatcher(matcher.NewPatchMatcher,
 		"not-patch",
 		false,
-		"exclude resources by from patch files")
+		"exclude resources from patch files")
 
 	// Define --path flag.
 	mf.StringSliceMatcher(matcher.NewPathMatcher,
@@ -204,6 +192,18 @@ func Command() *cobra.Command { //nolint:funlen
 		"not-path",
 		nil,
 		"exclude resources by file path")
+
+	// Define --references flag.
+	mf.StringSliceErrorMatcher(matcher.NewReferenceMatcher,
+		"references",
+		nil,
+		"include resources that reference resource")
+
+	// Define --not-references flag.
+	mf.StringSliceErrorMatcher(matcher.NewReferenceMatcher,
+		"not-references",
+		nil,
+		"exclude resources that reference resource")
 
 	// Define --config flag.
 	cfgfile := cmd.Flags().String(

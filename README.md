@@ -12,7 +12,7 @@ This repository provides `krf`, a tool that can be used to easily sift through l
 
 The original impetus for this was the need to search through a stream of Kubernetes yaml documents for resources that contain some value. 
 The immediate next problem is that tools like e.g. `grep` are only filename/line number aware at best; so you end up with a list of matching lines, but you are no closer to knowing which specific resources contain those lines.
-At address this, `krf` was build as a Kubernetes resource aware `grep`, but can be utilized with both more power and precision. 
+To address this, `krf` was build as a Kubernetes resource aware `grep`, but can be utilized with both more power and precision.
 
 ## Installation
 
