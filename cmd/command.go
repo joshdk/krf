@@ -293,6 +293,8 @@ func simplifyResources(items []resources.Resource) {
 		unstructured.RemoveNestedField(item.Object, "metadata", "annotations", "kubectl.kubernetes.io/last-applied-configuration")
 		unstructured.RemoveNestedField(item.Object, "metadata", "creationTimestamp")
 		unstructured.RemoveNestedField(item.Object, "metadata", "generation")
+		unstructured.RemoveNestedField(item.Object, "metadata", "managedFields")
+		unstructured.RemoveNestedField(item.Object, "metadata", "ownerReferences")
 		unstructured.RemoveNestedField(item.Object, "metadata", "resourceVersion")
 		unstructured.RemoveNestedField(item.Object, "metadata", "uid")
 		unstructured.RemoveNestedField(item.Object, "ownerReferences")
