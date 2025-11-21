@@ -30,13 +30,26 @@ func asGlob(pattern string) (glob.Glob, error) {
 
 // splitSelector splits the given string into two pieces around an equal sign.
 func splitSelector(selector string) (string, string) {
-	parts := strings.SplitN(selector, "=", 2)
-	switch len(parts) {
-	case 2:
-		return parts[0], parts[1]
-	case 1:
-		return parts[0], ""
+	// Index for the last '=' and ']' characters. This is done as there are
+	// some selectors like '.spec.containers.[name=main].securityContext' and
+	// '.spec.containers.[name=main].image=docker.io/...' where blindly
+	// splitting on the first (or last) '=' character would be incorrect.
+	var (
+		indexEquals       = strings.LastIndex(selector, "=")
+		indexRightBracket = strings.LastIndex(selector, "]")
+	)
+
+	switch {
+	case indexRightBracket < indexEquals:
+		// The last '=' character exists after the last ']' character. Split on
+		// that index.
+		return selector[:indexEquals], selector[indexEquals+1:]
+	case indexEquals == -1:
+		// There is no '=' character. Return the input selector verbatim.
+		return selector, ""
 	default:
-		return "", ""
+		// There is no '=' character *after* a ']' character. Return the input
+		// selector verbatim.
+		return selector, ""
 	}
 }

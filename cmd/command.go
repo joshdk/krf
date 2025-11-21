@@ -103,6 +103,18 @@ func Command() *cobra.Command { //nolint:funlen
 		"",
 		"exclude resources by executing a script")
 
+	// Define --fieldpath flag.
+	mf.StringSliceErrorMatcher(matcher.NewFieldPathMatcher,
+		"fieldpath",
+		nil,
+		"include resources by kustomize fieldpath")
+
+	// Define --not-fieldpath flag.
+	mf.StringSliceErrorMatcher(matcher.NewFieldPathMatcher,
+		"not-fieldpath",
+		nil,
+		"exclude resources by kustomize fieldpath")
+
 	// Define --jsonpath flag.
 	mf.StringSliceErrorMatcher(matcher.NewJsonpathMatcher,
 		"jsonpath",
