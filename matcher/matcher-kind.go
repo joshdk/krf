@@ -6,6 +6,7 @@
 package matcher
 
 import (
+	"slices"
 	"strings"
 
 	"github.com/gobwas/glob"
@@ -40,10 +41,8 @@ func (m kindMatcher) Matches(item resources.Resource) bool {
 
 	if resolved, found := resolver.LookupKind(item.GetKind()); found {
 		// Otherwise try to match against any aliases for the current kind.
-		for _, alias := range resolved.Aliases {
-			if m.kindGlob.Match(alias) {
-				return true
-			}
+		if slices.ContainsFunc(resolved.Aliases, m.kindGlob.Match) {
+			return true
 		}
 	}
 

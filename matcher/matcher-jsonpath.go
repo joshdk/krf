@@ -17,7 +17,7 @@ import (
 )
 
 // NewJsonpathMatcher matches resources.Resource instances that contain the given
-// jsonpath, and optionally matching a value at that path.
+// jsonpath, and optionally matching a target value at that path.
 func NewJsonpathMatcher(selector string) (Matcher, error) {
 	key, value := splitSelector(selector)
 
@@ -28,8 +28,8 @@ func NewJsonpathMatcher(selector string) (Matcher, error) {
 
 	m := jsonpathMatcher{keyJsonpath: keyJsonpath}
 
-	// No jsonpath value was given to match against, so we'll only be
-	// checking for the existence of the given jsonpath...path.
+	// No target value was given to match against, so we'll only be checking
+	// for the existence of the given jsonpath...path.
 	if value == "" {
 		return m, nil
 	}
@@ -59,8 +59,8 @@ func (m jsonpathMatcher) Matches(item resources.Resource) bool {
 		return false
 	}
 
-	// Return the existence of a matching jsonpath, since value
-	// matching was not requested.
+	// Return the existence of a matching jsonpath, since value matching was
+	// not requested.
 	if m.valueGlob == nil {
 		return true
 	}
@@ -78,8 +78,8 @@ func (m jsonpathMatcher) Matches(item resources.Resource) bool {
 
 		case nil:
 			// Jsonpath evaluated to something nil. Match the value glob against
-			// the literal string "null".
-			if m.valueGlob.Match("null") {
+			// the literal string "nil" or "null".
+			if m.valueGlob.Match("nil") || m.valueGlob.Match("null") {
 				return true
 			}
 		}
