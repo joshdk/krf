@@ -25,9 +25,10 @@ The latest release can be installed by running:
 ```shell
 OS=$(uname | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m | sed 's/x86_64/amd64/; s/aarch64/arm64/')
-wget -O krf.tar.gz https://github.com/joshdk/krf/releases/latest/download/krf-${OS}-${ARCH}.tar.gz
+curl -Lso krf.tar.gz https://github.com/joshdk/krf/releases/latest/download/krf-${OS}-${ARCH}.tar.gz
 tar -xf krf.tar.gz
-sudo install krf /usr/local/bin/krf
+sudo mkdir -p /usr/local/bin/
+sudo install krf /usr/local/bin/
 ```
 
 ### Brew
