@@ -19,6 +19,7 @@ import (
 func References(w io.Writer, results []resources.Resource) error {
 	// Build a list of all resources referenced by each of the given resources.
 	var names []string
+
 	for _, item := range results {
 		references.All(item.Unstructured, func(referenceKind, referenceName string) {
 			name := fmt.Sprintf("%s/%s", referenceKind, referenceName)

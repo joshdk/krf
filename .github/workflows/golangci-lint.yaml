@@ -16,6 +16,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-go@v5
         with:
@@ -23,11 +25,17 @@ jobs:
 
       - shell: sh
         run: |
-          (cd $(mktemp -d) && go install github.com/joshdk/modfmt@master)
+          cd $(mktemp -d)
+          wget -q https://github.com/joshdk/modfmt/releases/latest/download/modfmt-linux-amd64.tar.gz
+          tar -xf modfmt-linux-amd64.tar.gz
+          pwd >> $GITHUB_PATH
+
+      - shell: sh
+        run: |
           go mod tidy -diff
           modfmt -l -c ./...
 
       - uses: golangci/golangci-lint-action@v8
         with:
-          # https://github.com/golangci/golangci-lint/releases/tag/v2.5.0
-          version: v2.5.0
+          # https://github.com/golangci/golangci-lint/releases/tag/v2.6.2
+          version: v2.6.2
