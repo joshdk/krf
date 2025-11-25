@@ -37,7 +37,8 @@ type diffMatcher struct {
 func (m diffMatcher) Matches(item resources.Resource) bool {
 	for _, original := range m.originals {
 		switch {
-		// Check if the resource under investigation is the counterpart of any original resources.
+		// Check if the resource under investigation is the counterpart of any
+		// original resources.
 		case item.GetAPIVersion() != original.GetAPIVersion():
 			continue
 		case item.GetKind() != original.GetKind():
@@ -46,11 +47,14 @@ func (m diffMatcher) Matches(item resources.Resource) bool {
 			continue
 		case item.GetNamespace() != original.GetNamespace():
 			continue
-		// Diff the resource under investigation against its original counterpart.
-		case cmp.Equal(item.Object, original.Object):
-			return false
 		}
+
+		// Diff the resource under investigation against its original
+		// counterpart.
+		return !cmp.Equal(item.Object, original.Object)
 	}
 
+	// The resource under investigation did not have an original counterpart,
+	// and has therefore differed.
 	return true
 }
