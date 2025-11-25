@@ -19,6 +19,7 @@ func TestDiffMatcher(t *testing.T) {
 			title:   "diff resources",
 			matcher: must(matcher.NewDiffMatcher("testdata/resources.txt")),
 			matches: []string{
+				"ConfigMap/my-configmap",
 				"Deployment/nginx-deployment",
 				"Pod/test-pod",
 			},

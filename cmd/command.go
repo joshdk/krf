@@ -91,6 +91,18 @@ func Command() *cobra.Command { //nolint:funlen
 		nil,
 		"exclude resources by substring contents")
 
+	// Define --diff flag.
+	mf.StringErrorMatcher(matcher.NewDiffMatcher,
+		"diff",
+		"",
+		"include resources which differ from those in a file")
+
+	// Define --not-diff flag.
+	mf.StringErrorMatcher(matcher.NewDiffMatcher,
+		"not-diff",
+		"",
+		"exclude resources which differ from those in a file")
+
 	// Define --exec flag.
 	mf.StringErrorMatcher(matcher.NewExecMatcher,
 		"exec",
