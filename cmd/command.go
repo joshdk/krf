@@ -26,7 +26,7 @@ import (
 )
 
 // Command returns a complete command line handler for krf.
-func Command() *cobra.Command { //nolint:funlen
+func Command() *cobra.Command { //nolint:funlen,maintidx
 	cmd := &cobra.Command{
 		Use:     "krf [directory|file|-]",
 		Long:    "krf - kubernetes resource filter",
@@ -72,6 +72,18 @@ func Command() *cobra.Command { //nolint:funlen
 		"not-apiversion",
 		nil,
 		"exclude resources by api version")
+
+	// Define --cel flag.
+	mf.StringErrorMatcher(matcher.NewCELMatcher,
+		"cel",
+		"",
+		"include resources by CEL expression")
+
+	// Define --not-cel flag.
+	mf.StringErrorMatcher(matcher.NewCELMatcher,
+		"not-cel",
+		"",
+		"exclude resources by CEL expression")
 
 	// Define --cluster-scoped flag.
 	mf.BoolMatcher(matcher.NewClusterScopedMatcher,
