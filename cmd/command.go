@@ -69,6 +69,16 @@ func Command() *cobra.Command { //nolint:funlen
 		"not-apiversion",
 		"exclude resources by api version")
 
+	// Define --cel flag.
+	mf.StringMatcher(matcher.NewCELMatcher,
+		"cel",
+		"include resources by CEL expression")
+
+	// Define --not-cel flag.
+	mf.StringMatcher(matcher.NewCELMatcher,
+		"not-cel",
+		"exclude resources by CEL expression")
+
 	// Define --cluster-scoped flag.
 	mf.BoolMatcher(matcher.NewClusterScopedMatcher,
 		"cluster-scoped",
