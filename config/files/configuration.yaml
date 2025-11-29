@@ -746,3 +746,110 @@ resources:
       - volumesnapshotcontents
       - vsc
       - vscs
+  - apiVersion: external-secrets.io/v1
+    kind: ClusterExternalSecret
+    aliases:
+      - ces
+      - clusterexternalsecrets
+    references:
+      - kind: ClusterSecretStore
+        paths:
+          - spec/externalSecretSpec/secretStoreRef/name
+      - kind: ConfigMap
+        paths:
+          - spec/externalSecretSpec/target/template/templateFrom/configMap/name
+      - kind: ExternalSecret
+        paths:
+          - spec/externalSecretName
+      - kind: Secret
+        paths:
+          - spec/externalSecretSpec/target/name
+          - spec/externalSecretSpec/target/template/templateFrom/secret/name
+      - kind: SecretStore
+        paths:
+          - spec/externalSecretSpec/secretStoreRef/name
+  - apiVersion: external-secrets.io/v1
+    kind: ClusterSecretStore
+    aliases:
+      - clustersecretstores
+      - css
+    references:
+      - kind: Secret
+        paths:
+          - spec/provider/akeyless/authSecretRef/kubernetesAuth/secretRef/name
+          - spec/provider/akeyless/authSecretRef/secretRef/accessID/name
+          - spec/provider/akeyless/authSecretRef/secretRef/accessType/name
+          - spec/provider/akeyless/authSecretRef/secretRef/accessTypeParam/name
+          - spec/provider/akeyless/caProvider/name
+          - spec/provider/alibaba/auth/secretRef/accessKeyIDSecretRef/name
+          - spec/provider/alibaba/auth/secretRef/accessKeySecretSecretRef/name
+          - spec/provider/aws/auth/jwt/serviceAccountRef/name
+          - spec/provider/aws/auth/secretRef/accessKeyIDSecretRef/name
+          - spec/provider/aws/auth/secretRef/secretAccessKeySecretRef/name
+          - spec/provider/aws/auth/secretRef/sessionTokenSecretRef/name
+          - spec/provider/gcpsm/auth/secretRef/secretAccessKeySecretRef/name
+          - spec/provider/gcpsm/auth/workloadIdentityFederation/awsSecurityCredentials/awsCredentialsSecretRef/name
+          - spec/provider/github/auth/privateKey/name
+          - spec/provider/kubernetes/auth/cert/clientCert/name
+          - spec/provider/kubernetes/auth/cert/clientKey/name
+          - spec/provider/kubernetes/auth/token/bearerToken/name
+          - spec/provider/kubernetes/authRef/name
+          - spec/provider/kubernetes/server/caProvider/name
+          - spec/provider/vault/auth/appRole/roleRef/name
+          - spec/provider/vault/auth/appRole/secretRef/name
+          - spec/provider/vault/auth/cert/clientCert/name
+          - spec/provider/vault/auth/cert/secretRef/name
+          - spec/provider/vault/auth/gcp/secretRef/secretAccessKeySecretRef/name
+          - spec/provider/vault/auth/iam/secretRef/accessKeyIDSecretRef/name
+          - spec/provider/vault/auth/iam/secretRef/secretAccessKeySecretRef/name
+          - spec/provider/vault/auth/iam/secretRef/sessionTokenSecretRef/name
+          - spec/provider/vault/auth/jwt/secretRef/name
+          - spec/provider/vault/auth/kubernetes/secretRef/name
+          - spec/provider/vault/auth/ldap/secretRef/name
+          - spec/provider/vault/auth/tokenSecretRef/name
+          - spec/provider/vault/auth/userPass/secretRef/name
+          - spec/provider/vault/caProvider/name
+          - spec/provider/vault/tls/certSecretRef/name
+          - spec/provider/vault/tls/keySecretRef/name
+          - spec/provider/webhook/auth/ntlm/passwordSecret/name
+          - spec/provider/webhook/auth/ntlm/usernameSecret/name
+          - spec/provider/webhook/caProvider/name
+          - spec/provider/webhook/secrets/secretRef/name
+      - kind: ServiceAccount
+        paths:
+          - spec/provider/akeyless/authSecretRef/kubernetesAuth/serviceAccountRef/name
+          - spec/provider/gcpsm/auth/workloadIdentity/serviceAccountRef/name
+          - spec/provider/gcpsm/auth/workloadIdentityFederation/serviceAccountRef/name
+          - spec/provider/kubernetes/auth/serviceAccount/name
+          - spec/provider/vault/auth/gcp/serviceAccountRef/name
+          - spec/provider/vault/auth/gcp/workloadIdentity/serviceAccountRef/name
+          - spec/provider/vault/auth/iam/jwt/serviceAccountRef/name
+          - spec/provider/vault/auth/jwt/kubernetesServiceAccountToken/serviceAccountRef/name
+          - spec/provider/vault/auth/kubernetes/serviceAccountRef/name
+      - kind: ConfigMap
+        paths:
+          - spec/provider/akeyless/caProvider/name
+          - spec/provider/gcpsm/auth/workloadIdentityFederation/credConfig/name
+          - spec/provider/kubernetes/server/caProvider/name
+          - spec/provider/vault/caProvider/name
+          - spec/provider/webhook/caProvider/name
+  - apiVersion: external-secrets.io/v1
+    kind: ExternalSecret
+    namespaced: true
+    aliases:
+      - es
+      - externalsecrets
+    references:
+      - kind: ClusterSecretStore
+        paths:
+          - spec/secretStoreRef/name
+      - kind: ConfigMap
+        paths:
+          - spec/target/template/templateFrom/configMap/name
+      - kind: Secret
+        paths:
+          - spec/target/name
+          - spec/target/template/templateFrom/secret/name
+      - kind: SecretStore
+        paths:
+          - spec/secretStoreRef/name
