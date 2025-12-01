@@ -26,7 +26,7 @@ import (
 )
 
 // Command returns a complete command line handler for krf.
-func Command() *cobra.Command { //nolint:funlen,maintidx
+func Command() *cobra.Command { //nolint:funlen
 	cmd := &cobra.Command{
 		Use:     "krf [directory|file|-]",
 		Long:    "krf - kubernetes resource filter",
@@ -50,195 +50,163 @@ func Command() *cobra.Command { //nolint:funlen,maintidx
 	mf := mflag.NewMatcherFlags(cmd.Flags())
 
 	// Define --annotation flag.
-	mf.StringSliceErrorMatcher(matcher.NewAnnotationMatcher,
+	mf.StringSliceMatcher(matcher.NewAnnotationMatcher,
 		"annotation",
-		nil,
 		"include resources by annotation")
 
 	// Define --not-annotation flag.
-	mf.StringSliceErrorMatcher(matcher.NewAnnotationMatcher,
+	mf.StringSliceMatcher(matcher.NewAnnotationMatcher,
 		"not-annotation",
-		nil,
 		"exclude resources by annotation")
 
 	// Define --apiversion flag.
-	mf.StringSliceErrorMatcher(matcher.NewAPIVersionMatcher,
+	mf.StringSliceMatcher(matcher.NewAPIVersionMatcher,
 		"apiversion",
-		nil,
 		"include resources by api version")
 
 	// Define --not-apiversion flag.
-	mf.StringSliceErrorMatcher(matcher.NewAPIVersionMatcher,
+	mf.StringSliceMatcher(matcher.NewAPIVersionMatcher,
 		"not-apiversion",
-		nil,
 		"exclude resources by api version")
 
 	// Define --cluster-scoped flag.
 	mf.BoolMatcher(matcher.NewClusterScopedMatcher,
 		"cluster-scoped",
-		false,
 		"include resources that are cluster-scoped")
 
 	// Define --contains flag.
 	mf.StringSliceMatcher(matcher.NewContainsMatcher,
 		"contains",
-		nil,
 		"include resources by substring contents")
 
 	// Define --not-contains flag.
 	mf.StringSliceMatcher(matcher.NewContainsMatcher,
 		"not-contains",
-		nil,
 		"exclude resources by substring contents")
 
 	// Define --diff flag.
-	mf.StringErrorMatcher(matcher.NewDiffMatcher,
+	mf.StringMatcher(matcher.NewDiffMatcher,
 		"diff",
-		"",
 		"include resources which differ from those in a file")
 
 	// Define --not-diff flag.
-	mf.StringErrorMatcher(matcher.NewDiffMatcher,
+	mf.StringMatcher(matcher.NewDiffMatcher,
 		"not-diff",
-		"",
 		"exclude resources which differ from those in a file")
 
 	// Define --exec flag.
-	mf.StringErrorMatcher(matcher.NewExecMatcher,
+	mf.StringMatcher(matcher.NewExecMatcher,
 		"exec",
-		"",
 		"include resources by executing a script")
 
 	// Define --not-exec flag.
-	mf.StringErrorMatcher(matcher.NewExecMatcher,
+	mf.StringMatcher(matcher.NewExecMatcher,
 		"not-exec",
-		"",
 		"exclude resources by executing a script")
 
 	// Define --fieldpath flag.
-	mf.StringSliceErrorMatcher(matcher.NewFieldPathMatcher,
+	mf.StringSliceMatcher(matcher.NewFieldPathMatcher,
 		"fieldpath",
-		nil,
 		"include resources by kustomize fieldpath")
 
 	// Define --not-fieldpath flag.
-	mf.StringSliceErrorMatcher(matcher.NewFieldPathMatcher,
+	mf.StringSliceMatcher(matcher.NewFieldPathMatcher,
 		"not-fieldpath",
-		nil,
 		"exclude resources by kustomize fieldpath")
 
 	// Define --jsonpath flag.
-	mf.StringSliceErrorMatcher(matcher.NewJsonpathMatcher,
+	mf.StringSliceMatcher(matcher.NewJsonpathMatcher,
 		"jsonpath",
-		nil,
 		"include resources by jsonpath")
 
 	// Define --not-jsonpath flag.
-	mf.StringSliceErrorMatcher(matcher.NewJsonpathMatcher,
+	mf.StringSliceMatcher(matcher.NewJsonpathMatcher,
 		"not-jsonpath",
-		nil,
 		"exclude resources by jsonpath")
 
 	// Define --kind flag.
-	mf.StringSliceErrorMatcher(matcher.NewKindMatcher,
+	mf.StringSliceMatcher(matcher.NewKindMatcher,
 		"kind",
-		nil,
 		"include resources by kind")
 
 	// Define --not-kind flag.
-	mf.StringSliceErrorMatcher(matcher.NewKindMatcher,
+	mf.StringSliceMatcher(matcher.NewKindMatcher,
 		"not-kind",
-		nil,
 		"exclude resources by kind")
 
 	// Define --label flag.
-	mf.StringSliceErrorMatcher(matcher.NewLabelMatcher,
+	mf.StringSliceMatcher(matcher.NewLabelMatcher,
 		"label",
-		nil,
 		"include resources by label")
 
 	// Define --not-label flag.
-	mf.StringSliceErrorMatcher(matcher.NewLabelMatcher,
+	mf.StringSliceMatcher(matcher.NewLabelMatcher,
 		"not-label",
-		nil,
 		"exclude resources by label")
 
 	// Define --name flag.
-	mf.StringSliceErrorMatcher(matcher.NewNameMatcher,
+	mf.StringSliceMatcher(matcher.NewNameMatcher,
 		"name",
-		nil,
 		"include resources by name")
 
 	// Define --not-name flag.
-	mf.StringSliceErrorMatcher(matcher.NewNameMatcher,
+	mf.StringSliceMatcher(matcher.NewNameMatcher,
 		"not-name",
-		nil,
 		"exclude resources by name")
 
 	// Define --namespace flag.
-	mf.StringSliceErrorMatcher(matcher.NewNamespaceMatcher,
+	mf.StringSliceMatcher(matcher.NewNamespaceMatcher,
 		"namespace",
-		nil,
 		"include resources by namespace")
 
 	// Define --not-namespace flag.
-	mf.StringSliceErrorMatcher(matcher.NewNamespaceMatcher,
+	mf.StringSliceMatcher(matcher.NewNamespaceMatcher,
 		"not-namespace",
-		nil,
 		"exclude resources by namespace")
 
 	// Define --namespace-scoped flag.
 	mf.BoolMatcher(matcher.NewNamespaceScopedMatcher,
 		"namespace-scoped",
-		false,
 		"include resources that are namespace-scoped")
 
 	// Define --patch flag.
 	mf.BoolMatcher(matcher.NewPatchMatcher,
 		"patch",
-		false,
 		"include resources from patch files")
 
 	// Define --not-patch flag.
 	mf.BoolMatcher(matcher.NewPatchMatcher,
 		"not-patch",
-		false,
 		"exclude resources from patch files")
 
 	// Define --path flag.
 	mf.StringSliceMatcher(matcher.NewPathMatcher,
 		"path",
-		nil,
 		"include resources by file path")
 
 	// Define --not-path flag.
 	mf.StringSliceMatcher(matcher.NewPathMatcher,
 		"not-path",
-		nil,
 		"exclude resources by file path")
 
 	// Define --references flag.
-	mf.StringSliceErrorMatcher(matcher.NewReferenceMatcher,
+	mf.StringSliceMatcher(matcher.NewReferenceMatcher,
 		"references",
-		nil,
 		"include resources that reference resource")
 
 	// Define --not-references flag.
-	mf.StringSliceErrorMatcher(matcher.NewReferenceMatcher,
+	mf.StringSliceMatcher(matcher.NewReferenceMatcher,
 		"not-references",
-		nil,
 		"exclude resources that reference resource")
 
 	// Define --selector flag.
-	mf.StringErrorMatcher(matcher.NewSelectorMatcher,
+	mf.StringMatcher(matcher.NewSelectorMatcher,
 		"selector",
-		"",
 		"include resources by label selector")
 
 	// Define --not-selector flag.
-	mf.StringErrorMatcher(matcher.NewSelectorMatcher,
+	mf.StringMatcher(matcher.NewSelectorMatcher,
 		"not-selector",
-		"",
 		"exclude resources by label selector")
 
 	// Define --config flag.
