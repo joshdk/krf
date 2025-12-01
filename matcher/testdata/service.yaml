@@ -5,6 +5,7 @@ metadata:
   namespace: custom-app
   labels:
     app: myapp
+    component: api
 spec:
   selector:
     app.kubernetes.io/name: myapp

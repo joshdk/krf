@@ -28,6 +28,7 @@ kind: Service
 metadata:
   labels:
     app: myapp
+    component: api
   name: my-service
   namespace: custom-app
 spec:
@@ -68,6 +69,7 @@ spec:
   selector:
     matchLabels:
       app: nginx
+      component: proxy
   template:
     metadata:
       labels:
