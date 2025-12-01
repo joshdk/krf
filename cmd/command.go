@@ -26,7 +26,7 @@ import (
 )
 
 // Command returns a complete command line handler for krf.
-func Command() *cobra.Command { //nolint:funlen
+func Command() *cobra.Command { //nolint:funlen,maintidx
 	cmd := &cobra.Command{
 		Use:     "krf [directory|file|-]",
 		Long:    "krf - kubernetes resource filter",
@@ -228,6 +228,18 @@ func Command() *cobra.Command { //nolint:funlen
 		"not-references",
 		nil,
 		"exclude resources that reference resource")
+
+	// Define --selector flag.
+	mf.StringErrorMatcher(matcher.NewSelectorMatcher,
+		"selector",
+		"",
+		"include resources by label selector")
+
+	// Define --not-selector flag.
+	mf.StringErrorMatcher(matcher.NewSelectorMatcher,
+		"not-selector",
+		"",
+		"exclude resources by label selector")
 
 	// Define --config flag.
 	cfgfile := cmd.Flags().String(
