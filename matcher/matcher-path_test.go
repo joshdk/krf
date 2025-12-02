@@ -17,7 +17,7 @@ func TestPathMatcher(t *testing.T) {
 	testMatcher(t, []spec{
 		{
 			title:   "files under subdir",
-			matcher: matcher.NewPathMatcher("/subdir/"),
+			matcher: must(matcher.NewPathMatcher("/subdir/")),
 			matches: []string{
 				"ClusterRoleBinding/read-secrets-global",
 				"Deployment/nginx-deployment",
@@ -26,7 +26,7 @@ func TestPathMatcher(t *testing.T) {
 		},
 		{
 			title:   "files under subsubdir",
-			matcher: matcher.NewPathMatcher("/subdir/subsubdir"),
+			matcher: must(matcher.NewPathMatcher("/subdir/subsubdir")),
 			matches: []string{"ConfigMap/my-configmap"},
 		},
 	})

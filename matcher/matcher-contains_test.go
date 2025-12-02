@@ -17,12 +17,12 @@ func TestContainsMatcher(t *testing.T) {
 	testMatcher(t, []spec{
 		{
 			title:   "image substring",
-			matcher: matcher.NewContainsMatcher("mage: gcr.io/goog"),
+			matcher: must(matcher.NewContainsMatcher("mage: gcr.io/goog")),
 			matches: []string{"Pod/test-pod"},
 		},
 		{
 			title:   "port substring",
-			matcher: matcher.NewContainsMatcher("ort: 80"),
+			matcher: must(matcher.NewContainsMatcher("ort: 80")),
 			matches: []string{
 				"Deployment/nginx-deployment",
 				"Service/my-service",

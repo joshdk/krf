@@ -75,8 +75,8 @@ func (m *FlagSet) Matcher() (matcher.Matcher, error) {
 
 // BoolMatcher creates a named bool flag paired with the given matcher.Matcher
 // constructor.
-func (m *FlagSet) BoolMatcher(callback func() matcher.Matcher, name string, value bool, usage string) {
-	result := m.flags.Bool(name, value, usage)
+func (m *FlagSet) BoolMatcher(callback func() matcher.Matcher, name string, usage string) {
+	result := m.flags.Bool(name, false, usage)
 
 	fn := func() ([]matcher.Matcher, error) {
 		if !*result {
@@ -89,10 +89,10 @@ func (m *FlagSet) BoolMatcher(callback func() matcher.Matcher, name string, valu
 	m.add(name, fn)
 }
 
-// StringErrorMatcher creates a named string flag paired with the given
+// StringMatcher creates a named string flag paired with the given
 // matcher.Matcher constructor (which can return an error).
-func (m *FlagSet) StringErrorMatcher(callback func(string) (matcher.Matcher, error), name string, value string, usage string) {
-	result := m.flags.String(name, value, usage)
+func (m *FlagSet) StringMatcher(callback func(string) (matcher.Matcher, error), name string, usage string) {
+	result := m.flags.String(name, "", usage)
 
 	fn := func() ([]matcher.Matcher, error) {
 		if *result == "" {
@@ -110,18 +110,10 @@ func (m *FlagSet) StringErrorMatcher(callback func(string) (matcher.Matcher, err
 	m.add(name, fn)
 }
 
-// StringSliceMatcher creates a named string slice flag paired with the given
-// matcher.Matcher constructor.
-func (m *FlagSet) StringSliceMatcher(callback func(string) matcher.Matcher, name string, value []string, usage string) {
-	m.StringSliceErrorMatcher(func(s string) (matcher.Matcher, error) {
-		return callback(s), nil
-	}, name, value, usage)
-}
-
-// StringSliceErrorMatcher creates a named string slice flag paired with the
+// StringSliceMatcher creates a named string slice flag paired with the
 // given matcher.Matcher constructor (which can return an error).
-func (m *FlagSet) StringSliceErrorMatcher(callback func(string) (matcher.Matcher, error), name string, value []string, usage string) {
-	results := m.flags.StringSlice(name, value, usage)
+func (m *FlagSet) StringSliceMatcher(callback func(string) (matcher.Matcher, error), name string, usage string) {
+	results := m.flags.StringSlice(name, nil, usage)
 
 	fn := func() ([]matcher.Matcher, error) {
 		if len(*results) == 0 {

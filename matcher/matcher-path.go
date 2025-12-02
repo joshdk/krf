@@ -17,8 +17,8 @@ import (
 // For example, a resource decoded from the file
 // `kustomize/environments/production/deployment.yaml` would be matched by the
 // input `environments/production` or `deployment.yaml`.
-func NewPathMatcher(path string) Matcher {
-	return pathMatcher{path: path}
+func NewPathMatcher(path string) (Matcher, error) {
+	return pathMatcher{path: path}, nil
 }
 
 type pathMatcher struct {

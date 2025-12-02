@@ -18,8 +18,8 @@ import (
 // to resources that were originally decoded from JSON files. Additionally,
 // these re-marshalled YAML documents no longer contain any of the original
 // comments or other formatting.
-func NewContainsMatcher(substring string) Matcher {
-	return containsMatcher{substring: substring}
+func NewContainsMatcher(substring string) (Matcher, error) {
+	return containsMatcher{substring: substring}, nil
 }
 
 type containsMatcher struct {
