@@ -46,6 +46,9 @@ func ByName(name string) (func(io.Writer, []resources.Resource) error, error) {
 	case "references":
 		return References, nil
 
+	case "selector":
+		return Selector, nil
+
 	case "table":
 		return Table, nil
 
