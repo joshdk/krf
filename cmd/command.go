@@ -26,7 +26,7 @@ import (
 )
 
 // Command returns a complete command line handler for krf.
-func Command() *cobra.Command { //nolint:funlen
+func Command() *cobra.Command { //nolint:funlen,maintidx
 	cmd := &cobra.Command{
 		Use:     "krf [directory|file|-]",
 		Long:    "krf - kubernetes resource filter",
@@ -123,6 +123,16 @@ func Command() *cobra.Command { //nolint:funlen
 	mf.StringSliceMatcher(matcher.NewFieldPathMatcher,
 		"not-fieldpath",
 		"exclude resources by kustomize fieldpath")
+
+	// Define --git flag.
+	mf.StringSliceMatcher(matcher.NewGitMatcher,
+		"git",
+		"include resources by git status")
+
+	// Define --not-git flag.
+	mf.StringSliceMatcher(matcher.NewGitMatcher,
+		"not-git",
+		"exclude resources by git status")
 
 	// Define --jsonpath flag.
 	mf.StringSliceMatcher(matcher.NewJsonpathMatcher,
