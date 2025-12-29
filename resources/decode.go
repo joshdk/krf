@@ -25,6 +25,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"golang.org/x/term"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/util/yaml"
 )
@@ -65,7 +66,14 @@ func Decode(source any, handler ResourceFunc) error {
 
 	case string:
 		switch s {
-		case "", "-":
+		case "":
+			if term.IsTerminal(int(os.Stdin.Fd())) {
+				return Directory(".", handler)
+			}
+
+			return Reader(os.Stdin, handler)
+
+		case "-":
 			return Reader(os.Stdin, handler)
 
 		default:
