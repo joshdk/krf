@@ -8,6 +8,7 @@ metadata:
     component: proxy
   annotations:
     kubernetes.io/description: proxy
+    argocd.argoproj.io/tracking-id: app-dev:apps/Deployment:default/nginx-deployment
 spec:
   replicas: 3
   selector:

@@ -31,6 +31,8 @@ metadata:
     component: api
   name: my-service
   namespace: custom-app
+  annotations:
+    argocd.argoproj.io/tracking-id: app:/Service:custom-app/my-service
 spec:
   ports:
   - port: 80

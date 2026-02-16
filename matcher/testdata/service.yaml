@@ -6,6 +6,8 @@ metadata:
   labels:
     app: myapp
     component: api
+  annotations:
+    argocd.argoproj.io/tracking-id: app:/Service:custom-app/my-service
 spec:
   selector:
     app.kubernetes.io/name: myapp
