@@ -69,6 +69,16 @@ func Command() *cobra.Command { //nolint:funlen,maintidx
 		"not-apiversion",
 		"exclude resources by api version")
 
+	// Define --argocd flag.
+	mf.StringSliceMatcher(matcher.NewArgoCDMatcher,
+		"argocd",
+		"include resources by ArgoCD application")
+
+	// Define --not-argocd flag.
+	mf.StringSliceMatcher(matcher.NewArgoCDMatcher,
+		"not-argocd",
+		"exclude resources by ArgoCD application")
+
 	// Define --cel flag.
 	mf.StringMatcher(matcher.NewCELMatcher,
 		"cel",
