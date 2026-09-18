@@ -67,11 +67,11 @@ func Decode(source any, handler ResourceFunc) error {
 	case string:
 		switch s {
 		case "":
-			if term.IsTerminal(int(os.Stdin.Fd())) {
-				return Directory(".", handler)
+			if isStdinRedirected() {
+				return Reader(os.Stdin, handler)
 			}
 
-			return Reader(os.Stdin, handler)
+			return Directory(".", handler)
 
 		case "-":
 			return Reader(os.Stdin, handler)
@@ -89,6 +89,31 @@ func Decode(source any, handler ResourceFunc) error {
 	default:
 		return fmt.Errorf("unsupported source type: %T", source)
 	}
+}
+
+// isStdinRedirected indicates whether stdin is actually being redirected to.
+// Since some environments do not allocate a TTY, we need to be able to
+// differentiate between bare execution and execution where data is actually
+// being redirected to stdin.
+func isStdinRedirected() bool {
+	info, err := os.Stdin.Stat()
+	if err != nil {
+		return false
+	}
+
+	// isTerminal indicates whether stdin is a TTY.
+	isTerminal := term.IsTerminal(int(os.Stdin.Fd()))
+
+	// hasData indicates whether stdin has data available to be read.
+	hasData := info.Size() > 0
+
+	// isNamedPipe indicates whether stdin is a named pipe.
+	isNamedPipe := info.Mode().Type()&os.ModeNamedPipe != 0
+
+	// isNamedPipe indicates whether stdin is a regular file.
+	isRegularFile := info.Mode().Type() == 0
+
+	return !isTerminal && hasData || isNamedPipe || isRegularFile
 }
 
 // Directory decodes Kubernetes resources from files discovered while walking
