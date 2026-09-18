@@ -27,7 +27,7 @@ func Selector(w io.Writer, items []resources.Resource) error {
 	for _, item := range items {
 		var (
 			labels    = item.GetLabels()
-			selectors []string
+			selectors = make([]string, 0, len(labels))
 		)
 
 		// Sort all labels by key name.

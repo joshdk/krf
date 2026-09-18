@@ -40,12 +40,12 @@ func (m argocdMatcher) Matches(item resources.Resource) bool {
 	// <application name>:<resource group>/<resource kind>:<resource namespace>/<resource name>
 	// We are interested in the application name, so we look for the location
 	// of the first ':' character and slice the string up to that point.
-	index := strings.IndexByte(value, ':')
-	if index == -1 {
+	before, _, ok := strings.Cut(value, ":")
+	if !ok {
 		return false
 	}
 
-	app := value[:index]
+	app := before
 
 	return m.appGlob.Match(app)
 }
