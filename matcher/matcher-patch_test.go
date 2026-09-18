@@ -17,7 +17,7 @@ func TestPatchMatcher(t *testing.T) {
 	testMatcher(t, []spec{
 		{
 			title:   "patch file",
-			matcher: (matcher.NewPatchMatcher()),
+			matcher: matcher.NewPatchMatcher(),
 			matches: []string{"Pod/test-pod"},
 		},
 	})

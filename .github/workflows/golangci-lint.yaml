@@ -15,11 +15,11 @@ jobs:
       contents: read
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v7
         with:
           go-version-file: go.mod
 
@@ -35,7 +35,7 @@ jobs:
           go mod tidy -diff
           modfmt -l -c ./...
 
-      - uses: golangci/golangci-lint-action@v8
+      - uses: golangci/golangci-lint-action@v9
         with:
-          # https://github.com/golangci/golangci-lint/releases/tag/v2.6.2
-          version: v2.6.2
+          # https://github.com/golangci/golangci-lint/releases/tag/v2.13.2
+          version: v2.13.2

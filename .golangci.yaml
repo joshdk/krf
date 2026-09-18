@@ -23,9 +23,10 @@ linters:
     - depguard
     - dupl
     - err113
-    - exhaustruct
+    - exhaustruct_v5
     - forbidigo
     - gochecknoglobals
+    - goconst
     - gosec
     - ireturn
     - lll
@@ -35,6 +36,8 @@ linters:
     - wrapcheck
 
     # Linters that are deprecated.
+    - exhaustruct
+    - gomodguard
     - wsl
 
   settings:

@@ -12,24 +12,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v7
         with:
           go-version-file: go.mod
 
-      - uses: goreleaser/goreleaser-action@v6
+      - uses: goreleaser/goreleaser-action@v7
         with:
-          # https://github.com/goreleaser/goreleaser/releases/tag/v2.12.7
-          version: v2.12.7
+          # https://github.com/goreleaser/goreleaser/releases/tag/v2.18.2
+          version: v2.18.2
           args: build --clean --snapshot
 
       - shell: sh
         run: ./dist/krf_linux_amd64_v1/krf --version
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         continue-on-error: true
         with:
           name: artifacts
@@ -41,9 +41,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v7
         with:
           go-version-file: go.mod
 
