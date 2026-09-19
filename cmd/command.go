@@ -7,6 +7,8 @@
 package cmd
 
 import (
+	"errors"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -269,6 +271,20 @@ func Command() *cobra.Command { //nolint:funlen,maintidx
 		"",
 		"output format (count,json,name,path,references,selector,table,yaml)")
 
+	// Define --expect-matches flag.
+	expectMatches := cmd.Flags().Bool(
+		"expect-matches",
+		false,
+		"exit with an error if no resources are matched",
+	)
+
+	// Define --expect-no-matches flag.
+	expectNoMatches := cmd.Flags().Bool(
+		"expect-no-matches",
+		false,
+		"exit with an error if resources are matched",
+	)
+
 	var state struct {
 		allMatchers matcher.Matcher
 		printerFn   func(io.Writer, []resources.Resource) error
@@ -323,7 +339,21 @@ func Command() *cobra.Command { //nolint:funlen,maintidx
 
 		sortResources(results)
 
-		return state.printerFn(os.Stdout, results)
+		err = state.printerFn(os.Stdout, results)
+		if err != nil {
+			return err
+		}
+
+		switch {
+		case *expectMatches && len(results) == 0:
+			return errors.New("expected resources to match but got 0")
+
+		case *expectNoMatches && len(results) != 0:
+			return fmt.Errorf("expected no resources to match but got %d", len(results))
+
+		default:
+			return nil
+		}
 	}
 
 	return cmd
