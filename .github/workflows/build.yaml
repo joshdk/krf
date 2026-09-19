@@ -47,5 +47,10 @@ jobs:
         with:
           go-version-file: go.mod
 
+      - uses: autero1/action-gotestsum@v2.0.0
+        with:
+          # https://github.com/gotestyourself/gotestsum/releases/tag/v1.13.0
+          gotestsum_version: 1.13.0
+
       - shell: sh
-        run: go test -v ./...
+        run: gotestsum --format testname ./...
