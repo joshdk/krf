@@ -1,13 +1,16 @@
 apiVersion: v1
 kind: Service
+
 metadata:
   name: my-service
   namespace: custom-app
+  creationTimestamp: 2026-10-23T00:00:00Z
   labels:
     app: myapp
     component: api
   annotations:
     argocd.argoproj.io/tracking-id: app:/Service:custom-app/my-service
+
 spec:
   selector:
     app.kubernetes.io/name: myapp

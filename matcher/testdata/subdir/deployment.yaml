@@ -1,14 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
+
 metadata:
   name: nginx-deployment
   namespace: default
+  creationTimestamp: 2026-10-21T00:00:00Z
   labels:
     app: nginx
     component: proxy
   annotations:
     kubernetes.io/description: proxy
     argocd.argoproj.io/tracking-id: app-dev:apps/Deployment:default/nginx-deployment
+
 spec:
   replicas: 3
   selector:
