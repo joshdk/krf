@@ -106,6 +106,16 @@ func Command() *cobra.Command { //nolint:funlen,maintidx
 		"not-contains",
 		"exclude resources by substring contents")
 
+	// Define --created-after flag.
+	mf.StringMatcher(matcher.NewCreatedAfterMatcher,
+		"created-after",
+		"include resources created after a point in time")
+
+	// Define --created-before flag.
+	mf.StringMatcher(matcher.NewCreatedBeforeMatcher,
+		"created-before",
+		"include resources created before a point in time")
+
 	// Define --diff flag.
 	mf.StringMatcher(matcher.NewDiffMatcher,
 		"diff",

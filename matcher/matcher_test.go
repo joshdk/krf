@@ -8,12 +8,18 @@ package matcher_test
 import (
 	"fmt"
 	"testing"
+	"testing/synctest"
+	"time"
 
 	"github.com/joshdk/krf/config"
 	"github.com/joshdk/krf/matcher"
 	"github.com/joshdk/krf/resolver"
 	"github.com/joshdk/krf/resources"
 )
+
+// testNow is an arbitrary, consistent point in time to use for testing,
+// independent of the current time.
+var testNow, _ = time.ParseInLocation(time.RFC3339, "2026-10-24T00:00:00Z", time.UTC)
 
 var testResources []resources.Resource
 
@@ -49,8 +55,8 @@ func testMatcher(t *testing.T, tests []spec) {
 	t.Helper()
 
 	for _, test := range tests {
-		t.Run(test.title, func(t *testing.T) {
-			t.Parallel()
+		testRun(t, test, func(t *testing.T) {
+			t.Helper()
 
 			expected := make(map[string]struct{})
 
@@ -84,6 +90,21 @@ func testMatcher(t *testing.T, tests []spec) {
 			}
 		})
 	}
+}
+
+// testRun runs the given test function inside a new time bubble.
+func testRun(t *testing.T, test spec, testFn func(t *testing.T)) {
+	t.Helper()
+
+	t.Run(test.title, func(t *testing.T) {
+		t.Parallel()
+
+		synctest.Test(t, func(t *testing.T) {
+			time.Sleep(time.Until(testNow))
+
+			testFn(t)
+		})
+	})
 }
 
 func must(m matcher.Matcher, err error) matcher.Matcher {
